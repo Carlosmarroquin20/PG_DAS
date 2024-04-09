@@ -1,0 +1,31 @@
+.item{
+    width: 350px;
+}
+
+.item p{
+    margin: 6px, 0px;
+}
+
+.item-prices{
+    display: flex;
+    gap: 20px;
+}
+
+.item-price-new {
+    color: rgb(0, 106, 5);
+    font-size: 25px;
+    font-weight: bold; /* o font-weight: 700; */
+}
+
+.item-price-old {
+    color: #898989de;
+    font-size: 17px;
+    font-weight: 300;
+    text-decoration: line-through; /* Agrega esta línea para tachar el precio antiguo */
+}
+
+
+.item:hover{
+    transform: scale(1.05);
+    transition: 0.6s;
+}

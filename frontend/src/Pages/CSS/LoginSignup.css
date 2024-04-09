@@ -1,0 +1,79 @@
+.loginsignup{
+    width: 100%;
+    min-height: 105vh; /* Ajusta la altura mínima según sea necesario */
+    background: #598b6ad9;
+    padding-top: 50px;
+}
+
+.loginsignup-container{
+    width: 580px;
+    max-height: calc(110vh - 100px); /* Ajusta la altura máxima según sea necesario */
+    overflow-y: auto; /* Agregar desplazamiento vertical si el contenido es demasiado largo */
+    background: white; 
+    margin: auto;
+    padding: 40px 60px;
+    border-radius: 20px; /* Ajustar el radio de las esquinas según sea necesario */
+}
+
+.loginsignup-container h1{
+    margin: 20px 0px;
+}
+
+.loginsignup-fields{
+    display: flex;
+    flex-direction: column;
+    gap: 29px;
+    margin-top: 30px;
+}
+
+.loginsignup-fields input{
+    height: 72px;
+    width: 100%;
+    padding-left: 20px;
+    border: 1px solid #c9c9c9;
+    outline: none;
+    color: #5c5c5c;
+    font-size: 18px;
+}
+
+.loginsignup-container button {
+    width: 580px;
+    height: 72px;
+    color: white;
+    background: red;
+    margin-top: 30px;
+    border: none;
+    font-size: 24px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 10px; /* Agregar esquinas redondeadas */
+    transition: background-color 0.3s, transform 0.3s; /* Agregar transiciones suaves */
+}
+
+/* Efecto hover */
+.loginsignup-container button:hover {
+    background-color: rgba(183, 0, 0, 0.825); /* Cambiar el color al pasar el mouse sobre el botón */
+    transform: scale(1.05); /* Hacer que el botón se agrande ligeramente */
+}
+
+.loginsignup-login{
+    margin-top: 20px;
+    color: #5c5c5c;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.loginsignup-login span{
+    color: red;
+    font-weight: 600;
+}
+
+.loginsignup-agree{
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
+    gap: 20px;
+    color: #5c5c5c;
+    font-size: 18px;
+    font-weight: 500;
+}

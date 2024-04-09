@@ -1,0 +1,51 @@
+.dascategory-banner{
+    display: block;
+    margin: 30px auto;
+    width: 82%;
+}
+
+.dascategory-indexSort{
+    display: flex;
+    margin: 0px 170px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dascategory-sort{
+    padding: 20px 20px;
+    border-radius: 40px;
+    border: 1px solid #888;
+}
+
+.dascategory-indexSort p{
+    font-weight: 600;
+}
+
+.dascategory-products {
+    margin: 20px auto; /* Eliminar el margen lateral y centrar el contenedor */
+    width: 90%; /* Ajustar el ancho del contenedor según sea necesario */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    row-gap: 1px;
+}
+
+.item img {
+    max-width: 91%; /* Ajustar el tamaño máximo de la imagen al ancho del contenedor */
+    max-height: 91%; /* Ajustar el tamaño máximo de la imagen al alto del contenedor */
+    object-fit: contain; /* Redimensionar la imagen manteniendo su relación de aspecto */
+}
+
+.dascategory-loadmore{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px auto;
+    width: 233px;
+    height: 69px;
+    border-radius: 75px;
+    background: #ededed;
+    color: #757575;
+    font-size: 18px;
+    font-weight: 500;
+}
+
