@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 const Item = (props) => {
   return (
     <div className='item'>
-        <Link to={`/Productos/${props.id}`}><img src={props.image} alt="" /></Link> {/* Usar comillas invertidas para el template literal */}
+        <Link to={`/Productos/${props.id}`}><img onClick={window.scrollTo(0,0)} src={props.image} alt="" /></Link> {/* Usar comillas invertidas para el template literal */}
         <p>{props.name}</p>
         <div className="item-prices">
             <div className="item-price-new">
