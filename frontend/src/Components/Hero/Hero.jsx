@@ -9,7 +9,7 @@ const Hero = () => {
   return (
     <div className='hero'>
         <div className="hero-left">
-            <h2>Distribuidora Agrícola Fondoval: Tu aliado en el campo.</h2>
+            <h2>Distribuidora Agrícola Sandoval: Tu aliado en el campo.</h2>
             <div>
                 <div className="hero-hand-icon">
                     <p>¡Haz crecer</p>

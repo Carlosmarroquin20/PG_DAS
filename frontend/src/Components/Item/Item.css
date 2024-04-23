@@ -1,5 +1,10 @@
-.item{
-    width: 350px;
+.item {
+    width: 280px;
+    margin: 0 auto; /* Agrega esta línea para centrar horizontalmente los elementos */
+}
+
+.item img{
+    width: 280px;
 }
 
 .item p{
@@ -29,3 +34,53 @@
     transform: scale(1.05);
     transition: 0.6s;
 }
+
+@media(max-width:1280px){
+    .item{
+        width: 220px;
+        font-size: 14px;
+    }
+    .item img{
+        width: 220px;
+    }
+    .item-price-old{
+        font: 14px;
+    }
+}
+
+@media(max-width:1024px){
+    .item{
+        width: 170px;
+        font-size: 13px;
+    }
+    .item img{
+        width: 170px;
+    }
+    .item-price-old{
+        font-size: 13px;
+    }
+}
+
+@media(max-width:800px){
+    .item{
+        width: 120px;
+        font-size: 12px;
+    }
+    .item img{
+        width: 120px;
+    }
+    .item-price-old{
+        font-size: 12px;
+    }
+}
+
+@media(max-width:500px){
+    .item{
+        width: 160px;
+    }
+    .item img{
+        width: 160px;
+    }
+}
+
+
