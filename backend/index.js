@@ -29,12 +29,12 @@ const storage = multer.diskStorage({
 const upload = multer({storage:storage});
 
 // Crear punto final de carga para imágenes
-app.use('/image', express.static('upload/images'));
+app.use('/images', express.static('upload/images'));
 
 app.post("/upload", upload.single('product'),(req,res)=>{
     res.json({
-        success: 1,
-        image_url: `http://localhost:${port}/image/${req.file.filename}`
+        success:1,
+        image_url: `http://localhost:${port}/images/${req.file.filename}`
     });
 });
 
