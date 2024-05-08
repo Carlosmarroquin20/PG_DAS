@@ -5,7 +5,7 @@ const NewsLetter = () => {
   return (
     <div className='newsletter'>
         <h1>Obten Ofertas Exclusivas en tu Gmail</h1>
-        <p>Subcribete a nuestro canal de YouTube</p>
+        <p>Ingresa tu correo electronico</p>
         <div>
           <input type="gmail" placeholder='Tu  direccion e Gmail' />  
           <button>Subcribete</button>
