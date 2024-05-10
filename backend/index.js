@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken"); // CORREGIDO: Importar JSON Web Token para 
 const multer = require("multer"); // Importar Multer para manejar la carga de archivos
 const path = require("path"); // Importar Path para manipulación de rutas de archivos
 const cors = require("cors"); // Importar Cors para habilitar el intercambio de recursos entre diferentes dominios
+const { error } = require("console");
 
 // Middlewares
 app.use(express.json()); // Middleware para parsear el body de las peticiones a JSON
@@ -177,6 +178,30 @@ app.post('/signup', async (req,res)=>{
     const token = jwt.sign(data,'secret_ecom');
     res.json({success:true,token})
 })
+
+
+//EndPoint for UserLogin
+app.post('/login', async (req, res) => {
+    let user = await Users.findOne({ email: req.body.email });
+    if (user) {
+        const passCompare = req.body.password === user.password;
+        if (passCompare) {
+            const data = {
+                user: {
+                    id: user.id
+                }
+            };
+            const token = jwt.sign(data, 'secret_ecom');
+            res.json({ success: true, token });
+        } else {
+            res.json({ success: false, errors: "Contraseña incorrecta" });
+        }
+    } else {
+        res.json({ success: false, errors: "Email incorrecto" });
+    }
+});
+
+
 
 
 // Iniciar el servidor
