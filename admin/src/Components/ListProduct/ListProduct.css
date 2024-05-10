@@ -28,12 +28,15 @@
 
 .listproduct-product-icon{
     height: 80px;
+    margin-left: 1px;
 }
 
-.listproduct-remove-icon{
+.listproduct-remove-icon {
     cursor: pointer;
     margin: auto;
+    margin-left: 40px; /* Ajusta el margen izquierdo según sea necesario */
 }
+
 .listproduct-allproducts{
     overflow-y: auto;
 }

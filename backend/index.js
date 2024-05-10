@@ -3,7 +3,7 @@ const port = 4000; // Puerto en el que se ejecutará el servidor
 const express = require("express"); // Importar Express para crear el servidor
 const app = express(); // Crear una instancia de Express
 const mongoose = require("mongoose"); // Importar Mongoose para interactuar con la base de datos MongoDB
-const jws = require("jsonwebtoken"); // Importar JSON Web Token para la autenticación
+const jwt = require("jsonwebtoken"); // CORREGIDO: Importar JSON Web Token para la autenticación
 const multer = require("multer"); // Importar Multer para manejar la carga de archivos
 const path = require("path"); // Importar Path para manipulación de rutas de archivos
 const cors = require("cors"); // Importar Cors para habilitar el intercambio de recursos entre diferentes dominios
@@ -126,6 +126,58 @@ app.get('/allproducts', async (req,res)=>{
     console.log("All Products Fetched");
     res.send(products);
 });
+
+//Shema para creacion de user
+const Users = mongoose.model('Users',{
+    name:{
+        type:String,
+        unique:true,
+    },
+    email:{
+        type:String,
+        unique:true,
+    },
+    password:{
+        type:String,
+    },
+    cartData:{
+        type:Object,
+    },
+    date:{
+        type:Date,
+        default:Date.now,
+    }
+})
+
+app.post('/signup', async (req,res)=>{
+
+    let check = await Users.findOne({email:req.body.email});
+    if (check) {
+        return res.status(400).json({success:false,errors:"Usuario encontrado con el mismo Email"})
+    }
+    let cart = {};
+    for (let i = 0; i < 300; i++) {
+        cart[i]=0;   
+    }
+    const user = new Users({
+        name:req.body.username,
+        email:req.body.email,
+        password:req.body.password,
+        cartData:cart,
+    })
+
+    await user.save();
+
+    const data = {
+        user:{
+            id:user.id
+        }
+    }
+
+    const token = jwt.sign(data,'secret_ecom');
+    res.json({success:true,token})
+})
+
 
 // Iniciar el servidor
 app.listen(port,(error)=>{
