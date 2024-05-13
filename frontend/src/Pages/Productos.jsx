@@ -5,6 +5,7 @@ import Breadcrum from '../Components/Breadcrums/Breadcrum';
 import ProductDisplay from '../Components/ProductDisplay/ProductDisplay';
 import DescriptionBox from '../Components/DescriptionBox/DescriptionBox';
 import RelatedProducts from '../Components/RelatedProducts/RelatedProducts';
+import VideoPage from '../Components/VideoPage/VideoPage';
 
 const Productos = () => {
     const { all_product } = useContext(DasContext);
@@ -16,6 +17,7 @@ const Productos = () => {
             <Breadcrum Productos={Productos}/>
             <ProductDisplay Productos={Productos}/>
             <DescriptionBox/>
+            <VideoPage />
             <RelatedProducts/>
         </div>
     )

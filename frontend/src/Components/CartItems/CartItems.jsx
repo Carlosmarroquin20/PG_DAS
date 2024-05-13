@@ -25,7 +25,7 @@ const CartItems = () => {
                                 <img src={e.image} alt="" className='carticon-product-icon' />
                                 <p>{e.name}</p>
                                 <p>Q{e.new_price}</p>
-                                <button className='cartitems-quantity'>{cartItems[e.id]}</button>
+                                <span className='cartitems-format'>{cartItems[e.id]}</span>
                                 <p>Q{e.new_price * cartItems[e.id]}</p>
                                 <img className='cartitems-remove-icon' src={remove_icon} onClick={() => { removeFromCart(e.id) }} alt="" />
                             </div>

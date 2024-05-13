@@ -1,0 +1,19 @@
+/* VideoPage.css */
+
+.video-page {
+    text-align: center;
+    margin-bottom: 30px; /* Agrega margen inferior */
+  }
+  
+  .video-container {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative; /* Agrega posición relativa para que la sombra se posicione correctamente */
+  }
+  
+  .video-container iframe {
+    width: 100%;
+    border-radius: 8px; /* Añade bordes redondeados al video */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Aplica la sombra */
+  }
+  
