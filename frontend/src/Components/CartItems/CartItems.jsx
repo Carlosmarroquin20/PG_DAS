@@ -54,7 +54,7 @@ const CartItems = () => {
                             <h3>Q{getTotalCartAmount()}</h3>
                         </div>
                     </div>
-                    <button>PROCEDER A CONFIRMACION DE DETALLES</button>
+                    
                 </div>
                 <div className="cartitems-promocode">
                     <p> Si tienes un codigo de descuento, ingresalo aqui</p>

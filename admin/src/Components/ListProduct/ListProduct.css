@@ -1,4 +1,4 @@
-.list-product{
+.list-product {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -8,46 +8,130 @@
     margin: 30px;
     border-radius: 6px;
     background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.listproduct-format-main{
+.listproduct-format-main {
     display: grid;
-    grid-template-columns: 1fr 3fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 3fr 1fr 1fr 1fr 1fr 1fr;
     gap: 10px;
     width: 100%;
-    padding: 20px 0px;
+    padding: 20px 0;
     color: #454545;
     font-size: 15px;
     font-weight: 600;
-}
-
-.listproduct-format{
     align-items: center;
-    font-weight: 500;
 }
 
-.listproduct-product-icon{
+.listproduct-format {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+    padding: 20px 0;
+    font-weight: 500;
+    align-items: center;
+}
+
+.listproduct-product-icon {
     height: 80px;
     margin-left: 1px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.listproduct-remove-icon,
+.listproduct-edit-icon {
+    cursor: pointer;
+    margin: auto;
+}
+
+.listproduct-edit-icon {
+    margin-left: 20px;
 }
 
 .listproduct-remove-icon {
-    cursor: pointer;
-    margin: auto;
-    margin-left: 40px; /* Ajusta el margen izquierdo según sea necesario */
+    margin-left: 40px;
 }
 
-.listproduct-allproducts{
+.listproduct-allproducts {
     overflow-y: auto;
+    width: 100%;
 }
 
-@media(max-width:800px){
-    .list-product{
+.edit-form {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+    padding: 20px 0;
+    color: #454545;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.edit-form input,
+.edit-form select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.edit-form button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.edit-form .save-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.edit-form .cancel-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.edit-form .save-button:hover {
+    background-color: #45a049;
+}
+
+.edit-form .cancel-button:hover {
+    background-color: #e53935;
+}
+
+@media(max-width: 800px) {
+    .list-product {
         box-sizing: border-box;
         width: 95%;
-        height: 100%;
+        height: auto;
         padding: 10px 30px;
         margin: 20px auto;
     }
-}
 
+    .listproduct-format-main,
+    .listproduct-format,
+    .edit-form {
+        grid-template-columns: 1fr 2fr 1fr 1fr;
+        font-size: 12px;
+    }
+
+    .listproduct-remove-icon,
+    .listproduct-edit-icon {
+        margin-left: 10px;
+    }
+
+    .edit-form input,
+    .edit-form select {
+        font-size: 12px;
+    }
+
+    .edit-form button {
+        font-size: 12px;
+        padding: 5px;
+    }
+}
