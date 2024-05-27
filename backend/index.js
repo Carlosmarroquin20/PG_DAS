@@ -244,6 +244,123 @@ app.get('/popularinfoliares',async (req,res)=>{
     res.send(populares_in_foliares);
 })
 
+
+//Middelware para el fetch de user
+const fetchUser = async (req, res, next) => {
+    const token = req.header('auth-token');
+    if (!token) {
+        return res.status(401).send({ errors: "Por favor autenticar usando un token valido" });
+    }
+
+    try {
+        const data = jwt.verify(token, 'secret_ecom');
+        req.user = data.user;
+        next();
+    } catch (error) {
+        res.status(401).send({ errors: "Token inválido" });
+    }
+};
+
+
+//Crear endpoint para agregar productos 
+app.post('/addtocart',fetchUser,async (req,res)=>{
+    console.log("Added",req.body.itemId);
+    let userData = await Users.findOne({_id:req.user.id});
+    userData.cartData[req.body.itemId] +=1;
+    await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
+    res.send("Added")
+})
+
+//Quitar del carrito
+app.post('/removefromcart',fetchUser,async(req,res)=>{
+    console.log("removed",req.body.itemId);
+    let userData = await Users.findOne({_id:req.user.id});
+    if(userData.cartData[req.body.itemId]>0)
+    userData.cartData[req.body.itemId] -=1;
+    await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
+    res.send("Removed")  
+})
+
+app.post('getcart',fetchUser,async (req,res)=>{
+    console.log("GetCart");
+    let userData = await Users.findOne({_id:req.user.id});
+    res.json(userData.cartData);
+})
+
+const Order = mongoose.model('Order', {
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Users',
+        required: true,
+    },
+    products: [{
+        product: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Product',
+            required: true,
+        },
+        quantity: {
+            type: Number,
+            required: true,
+        }
+    }],
+    total: {
+        type: Number,
+        required: true,
+    },
+    deliveryOption: {
+        type: String,
+        required: true,
+    },
+    address: {
+        type: String,
+    },
+    phone: {
+        type: String,
+        required: true,
+    },
+    extraPhone: {
+        type: String,
+    },
+    comment: {
+        type: String,
+    },
+    date: {
+        type: Date,
+        default: Date.now,
+    }
+});
+
+app.post('/createorder', fetchUser, async (req, res) => {
+    try {
+        const { products, total, deliveryOption, address, phone, extraPhone, comment } = req.body;
+        
+        const order = new Order({
+            user: req.user.id,
+            products: products.map(product => ({
+                product: product.productId, // Cambiar a 'productId' si es como se recibe del frontend
+                quantity: product.quantity
+            })),
+            total,
+            deliveryOption,
+            address,
+            phone,
+            extraPhone,
+            comment
+        });
+
+        await order.save();
+        res.json({ success: true, order });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, errors: "Error en el servidor" });
+    }
+});
+
+
+
+
+
 // Iniciar el servidor
 app.listen(port, (error) => {
     if (!error) {
