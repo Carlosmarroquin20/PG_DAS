@@ -14,7 +14,7 @@ const Hero = () => {
                     <p>¡Haz crecer</p>
                 </div>
                 <p>tu cosecha!!</p>
-                <p>y tu éxito!</p>
+                <p>y tu éxito test!</p>
             </div>
             <div className="hero-latest-btn">
                 <div>Ultimos Productos!!!</div>

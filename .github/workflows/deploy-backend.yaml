@@ -39,6 +39,7 @@ jobs:
           echo "====== Sync local and remote directory ======"
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST1 }} 'sudo mkdir -p /home/ubuntu/backend && sudo chown -R $USER:$USER /home/ubuntu/backend'
           rsync -azPq -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --delete ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST1 }}:/home/ubuntu/backend/ --rsync-path="sudo rsync"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST1 }} 'if ! command -v pm2 > /dev/null; then sudo npm install -g pm2; fi'
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST1 }} 'if pm2 describe backend > /dev/null; then pm2 delete backend; fi && pm2 start /home/ubuntu/backend/index.js --name backend'
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
@@ -77,6 +78,7 @@ jobs:
           echo "====== Sync local and remote directory ======"
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST2 }} 'sudo mkdir -p /home/ubuntu/backend && sudo chown -R $USER:$USER /home/ubuntu/backend'
           rsync -azPq -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --delete ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST2 }}:/home/ubuntu/backend/ --rsync-path="sudo rsync"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST2 }} 'if ! command -v pm2 > /dev/null; then sudo npm install -g pm2; fi'
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST2 }} 'if pm2 describe backend > /dev/null; then pm2 delete backend; fi && pm2 start /home/ubuntu/backend/index.js --name backend'
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
