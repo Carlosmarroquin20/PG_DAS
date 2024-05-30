@@ -17,7 +17,7 @@ const Hero = () => {
                 <p>y tu éxito!</p>
             </div>
             <div className="hero-latest-btn">
-                <div>Ultimos Productos</div>
+                <div>Ultimos Productos!!!</div>
                 <img src={arrow_icon} alt=""/>
             </div>
         </div>
