@@ -1,0 +1,83 @@
+name: Deploy Web App - Backend
+
+on:
+  push:
+    branches:
+      - main  # Use the branch you use for production
+
+jobs:
+  deploy-host-1:
+    runs-on: das-deploy
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        working-directory: backend
+        run: |
+          npm install
+          echo MONGO_URL="mongodb+srv://Ema322:Master322GG@cluster0.j2f0i2y.mongodb.net/DasCommerce" > .env
+
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST1 }} >> ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST1 }}
+
+      - name: Deploy to Remote Server
+        working-directory: backend
+        run: |
+          echo "====== Deploy to production server ======"
+          echo "====== Sync local and remote directory ======"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST1 }} 'sudo mkdir -p /home/ubuntu/backend && sudo chown -R $USER:$USER /home/ubuntu/backend'
+          rsync -azPq -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --delete ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST1 }}:/home/ubuntu/backend/ --rsync-path="sudo rsync"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST1 }} 'if pm2 describe backend > /dev/null; then pm2 delete backend; fi && pm2 start /home/ubuntu/backend/index.js --name backend'
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST1 }}
+
+  deploy-host-2:
+    runs-on: das-deploy
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        working-directory: backend
+        run: |
+          npm install
+          echo MONGO_URL="mongodb+srv://Ema322:Master322GG@cluster0.j2f0i2y.mongodb.net/DasCommerce" > .env
+
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST2 }} >> ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST2 }}
+
+      - name: Deploy to Remote Server
+        working-directory: backend
+        run: |
+          echo "====== Deploy to production server ======"
+          echo "====== Sync local and remote directory ======"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST2 }} 'sudo mkdir -p /home/ubuntu/backend && sudo chown -R $USER:$USER /home/ubuntu/backend'
+          rsync -azPq -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --delete ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST2 }}:/home/ubuntu/backend/ --rsync-path="sudo rsync"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST2 }} 'if pm2 describe backend > /dev/null; then pm2 delete backend; fi && pm2 start /home/ubuntu/backend/index.js --name backend'
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST2 }}
