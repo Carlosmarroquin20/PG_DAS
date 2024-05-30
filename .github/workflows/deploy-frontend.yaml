@@ -7,7 +7,7 @@ on:
 
 jobs:
   host-1:
-    runs-on: das-deploy 
+    runs-on: das-deploy
     steps:
       - uses: actions/checkout@v3
       
@@ -19,15 +19,19 @@ jobs:
       
       # Install dependencies
       - name: Install Dependencies
-        run: npm install vite react react-dom
-
-      - name: Adding env file
-          run: |
-          echo REACT_APP_API_URL="${{ secrets.BACKEND_URL }}" > .env
+        working-directory: frontend 
+        run: npm install
       
-      # Build the React app
+      # Create .env file in public directory
+      - name: Adding env file
+        run: echo "REACT_APP_API_URL=${{ secrets.BACKEND_URL }}" > frontend/.env
+
+      # Build the React app in the public directory
       - name: Build React App
-        run: npm run build
+        working-directory: frontend
+        run: |
+          npm install
+          npm run build
 
       # Set up SSH key from GitHub Secrets
       - name: Set up SSH key
@@ -42,10 +46,11 @@ jobs:
 
       # Deploy to remote host via SSH
       - name: Deploy to Remote Server
+        working-directory: frontend
         run: |
-          echo "===== Deploy to production server ====="
-          echo "===== Sync local and remote directory ====="
-          rsync -azPq -e "ssh -o StrictHostKeyChecking=no -o UserKnowHostsFile=/dev/null" --delete ./build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST1 }}:/var/www/html/ --rsync-path="sudo rsync"
+          echo "====== Deploy to production server ======"
+          echo "====== Sync local and remote directory ======"
+          rsync -azPq -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --delete ./build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST1 }}:/var/www/html/ --rsync-path="sudo rsync"
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST1 }} 'sudo systemctl restart nginx'
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
@@ -63,15 +68,19 @@ jobs:
       
       # Install dependencies
       - name: Install Dependencies
+        working-directory: frontend 
         run: npm install
-
-      - name: Adding env file
-          run: |
-          echo VITE_APP_API_URL="${{ secrets.BACKEND_URL }}" > .env
       
-      # Build the React app
+      # Create .env file in public directory
+      - name: Adding env file
+        run: echo "REACT_APP_API_URL=${{ secrets.BACKEND_URL }}" > frontend/.env
+
+      # Build the React app in the public directory
       - name: Build React App
-        run: npm run build
+        working-directory: frontend
+        run: |
+          npm install
+          npm run build
 
       # Set up SSH key from GitHub Secrets
       - name: Set up SSH key
@@ -86,10 +95,11 @@ jobs:
 
       # Deploy to remote host via SSH
       - name: Deploy to Remote Server
+        working-directory: frontend
         run: |
-          echo "===== Deploy to production server ====="
-          echo "===== Sync local and remote directory ====="
-          rsync -azPq -e "ssh -o StrictHostKeyChecking=no -o UserKnowHostsFile=/dev/null" --delete ./build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST2 }}:/var/www/html/ --rsync-path="sudo rsync"
+          echo "====== Deploy to production server ======"
+          echo "====== Sync local and remote directory ======"
+          rsync -azPq -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --delete ./build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST2 }}:/var/www/html/ --rsync-path="sudo rsync"
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST2 }} 'sudo systemctl restart nginx'
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
