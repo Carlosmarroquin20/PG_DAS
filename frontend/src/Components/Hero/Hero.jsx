@@ -13,7 +13,7 @@ const Hero = () => {
                 <div className="hero-hand-icon">
                     <p>¡Haz crecer</p>
                 </div>
-                <p>tu cosecha</p>
+                <p>tu cosecha!!</p>
                 <p>y tu éxito!</p>
             </div>
             <div className="hero-latest-btn">
