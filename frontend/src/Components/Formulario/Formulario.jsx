@@ -21,6 +21,10 @@ const OrderForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (deliveryOption === 'delivery' && !formData.address) {
+      alert('Por favor, proporciona una dirección de entrega.');
+      return;
+    }
 
     const productsInCart = Object.keys(cartItems)
       .filter(itemId => cartItems[itemId] > 0)
@@ -28,6 +32,11 @@ const OrderForm = () => {
         productId: itemId,
         quantity: cartItems[itemId]
       }));
+
+    if (!productsInCart.length) {
+      alert('No hay productos en el carrito.');
+      return;
+    }
 
     const orderData = {
       products: productsInCart,
@@ -42,7 +51,7 @@ const OrderForm = () => {
     }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/createorder`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}users/createorder`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -55,8 +64,15 @@ const OrderForm = () => {
 
       if (data.success) {
         alert('Pedido realizado con éxito');
+        setFormData({
+          address: '',
+          phone: '',
+          extraPhone: '',
+          comment: ''
+        }); // Limpia el formulario
+        // Aquí también deberías limpiar el carrito o redirigir al usuario
       } else {
-        alert('Error al realizar el pedido');
+        alert('Error al realizar el pedido: ' + (data.errors || 'Unknown Error'));
       }
     } catch (error) {
       console.error('Error al enviar el pedido:', error);
@@ -80,7 +96,7 @@ const OrderForm = () => {
           </select>
         </div>
         
-        {deliveryOption === 'delivery' ? (
+        {deliveryOption === 'delivery' && (
           <div className="form-group">
             <label>Dirección de Entrega</label>
             <input
@@ -89,10 +105,9 @@ const OrderForm = () => {
               value={formData.address}
               onChange={handleChange}
               placeholder="Escribe tu dirección aquí"
+              required
             />
           </div>
-        ) : (
-          <div className="info-text">Se recogerá en la distribuidora</div>
         )}
 
         <div className="form-group">
@@ -103,6 +118,7 @@ const OrderForm = () => {
             value={formData.phone}
             onChange={handleChange}
             placeholder="Escribe tu número de teléfono aquí"
+            required
           />
         </div>
 

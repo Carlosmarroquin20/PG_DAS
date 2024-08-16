@@ -13,8 +13,8 @@ const Hero = () => {
                 <div className="hero-hand-icon">
                     <p>¡Haz crecer</p>
                 </div>
-                <p>tu cosecha!!2</p>
-                <p>y tu éxito test!
+                <p>tu cosecha</p>
+                <p>y tu éxito!
 
                 </p>
             </div>
