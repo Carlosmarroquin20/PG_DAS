@@ -15,7 +15,7 @@ const ListProduct = () => {
   });
 
   const fetchInfo = async () => {
-    await fetch('http://localhost:4000/allproducts')
+    await fetch('http://localhost:4000/api/products/allproducts')
       .then((res) => res.json())
       .then((data) => { setAllProducts(data); });
   }
@@ -25,7 +25,7 @@ const ListProduct = () => {
   }, []);
 
   const removeProduct = async (id) => {
-    await fetch('http://localhost:4000/removeproduct', {
+    await fetch('http://localhost:4000/api/products/removeproduct', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -47,7 +47,7 @@ const ListProduct = () => {
   }
 
   const saveProduct = async (id) => {
-    await fetch('http://localhost:4000/updateproduct', {
+    await fetch('http://localhost:4000/api/products/updateproduct', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
