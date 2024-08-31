@@ -1,0 +1,98 @@
+.product-detail {
+    display: flex;
+    align-items: center;
+    justify-content: center;  /* Centrando horizontalmente */
+    padding: 20px;
+    background-color: #f7f7f7;
+    height: 75vh;  /* Para centrar verticalmente */
+  }
+  
+  .product-image img {
+    width: 500px;  /* Imagen más grande */
+    height: auto;
+    margin-right: 60px;  /* Mayor espacio entre la imagen y la información */
+    border-radius: 10%;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .product-info {
+    max-width: 600px;  /* Ajustando el tamaño del contenedor de información */
+  }
+  
+  .product-info h4 {
+    font-size: 1.5rem;  /* Fuente más grande */
+    color: #a52a2a;
+    margin: 0;
+  }
+  
+  .product-info h1 {
+    font-size: 3rem;  /* Fuente más grande para el título */
+    color: #333;
+    margin: 10px 0;
+  }
+  
+  .product-rating {
+    font-size: 1.2rem;  /* Fuente más grande para la calificación */
+    color: #ff0000;
+    margin-bottom: 10px;
+  }
+  
+  .product-rating span {
+    margin-left: 5px;
+    color: #555;
+  }
+  
+  .product-info p {
+    font-size: 1.2rem;  /* Fuente más grande para el texto descriptivo */
+    color: #666;
+    margin: 20px 0;
+  }
+  
+  .buy-button {
+    background-color: #b22222;
+    color: white;
+    border: none;
+    padding: 15px 30px;  /* Botón más grande */
+    font-size: 1.2rem;  /* Fuente más grande para el botón */
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  
+  .buy-button:hover {
+    background-color: #8b0000;
+  }
+  
+  .product-options {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  .product-options label {
+    font-size: 1.2rem;  /* Fuente más grande para la etiqueta */
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .weights button {
+    background-color: #50411d;
+    border: 1px solid #5f481d;
+    padding: 10px 20px;  /* Botones más grandes para los pesos */
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .weights button:hover {
+    background-color: #f6d893;
+  }
+  
+  .recycling-info {
+    font-size: 1rem;  /* Fuente más grande para el enlace de reciclaje */
+    color: #888;
+    text-decoration: none;
+  }
+  
+  .recycling-info:hover {
+    text-decoration: underline;
+  }
+  

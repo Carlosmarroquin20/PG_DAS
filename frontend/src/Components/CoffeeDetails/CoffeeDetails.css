@@ -1,0 +1,83 @@
+.coffee-details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../Assets/CoffeBack.png');
+  background-size: cover;
+  background-position: center;
+  padding: 100px 0;
+  border-radius: 20px;
+  margin: 20px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.coffee-details-container {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.3);  /* Sombra más pronunciada */
+  max-width: 1200px;
+}
+
+.coffee-icon img {
+  width: 150px;
+  height: auto;
+  margin-right: 50px;
+  border-radius: 15px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);  /* Añadir sombra a la imagen */
+  transition: transform 0.3s;
+}
+
+.coffee-icon img:hover {
+  transform: scale(1.1);  /* Efecto de hover para hacer la imagen más llamativa */
+}
+
+.coffee-info {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;  /* Para apilar la información verticalmente */
+  width: 100%;
+}
+
+.coffee-type, .coffee-notes {
+  margin-bottom: 20px;
+}
+
+.coffee-type h3, .coffee-notes h3 {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.coffee-type p, .coffee-notes p {
+  font-size: 1.4rem;
+  color: #34495e;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.coffee-notes p {
+  font-style: italic;
+  color: #7f8c8d;
+}
+
+@media (max-width: 768px) {
+  .coffee-details-container {
+      flex-direction: column;
+      text-align: center;
+      padding: 30px;
+  }
+
+  .coffee-icon img {
+      margin-right: 0;
+      margin-bottom: 20px;
+  }
+
+  .coffee-info {
+      align-items: center;
+  }
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // Importa Link
 import './Footer.css';
 import footer_logo from '../Assets/logo_big.png';
 import instagram_icon from '../Assets/instagram_icon.png';
@@ -9,15 +10,15 @@ const Footer = () => {
   return (
     <div className='footer'>
       <div className="footer-logo">
-        <img src={footer_logo} alt="" />
+        <img src={footer_logo} alt="Logo" />
         <p>DISTRIBUIDORA AGRICOLA SANDOVAL</p>
       </div>
       <ul className="footer-links">
-        <li>Distribuidora</li>
-        <li>Productos</li>
-        <li>Oficinas</li>
-        <li>Sobre Nosotros</li>
-        <li>Contacto</li>
+        <li><Link to="/">Distribuidora</Link></li>
+        <li><Link to="/Productos">Productos</Link></li>
+        <li><Link to="/Oficinas">Oficinas</Link></li> 
+        <li><Link to="/SobreNosotros">Sobre Nosotros</Link></li> 
+        <li><Link to="/Contacto">Contacto</Link></li>
       </ul>
       <div className="footer-social-icon">
         <div className="footer-icons-container">
@@ -41,7 +42,7 @@ const Footer = () => {
         <p> Copyright @2024 Todos los derechos reservados.</p>
       </div>
     </div>
-  )
+  );
 }
 
 export default Footer;

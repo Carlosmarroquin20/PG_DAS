@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const fetchUser = (req, res, next) => {
+const authMiddleware = (req, res, next) => {
     const token = req.header('auth-token');
     if (!token) {
         return res.status(401).send({ errors: "Por favor autenticar usando un token valido" });
@@ -15,4 +15,4 @@ const fetchUser = (req, res, next) => {
     }
 };
 
-module.exports = fetchUser;
+module.exports = authMiddleware;

@@ -1,0 +1,83 @@
+.youtube-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f4f4f4; /* Color de fondo claro */
+    color: #333; /* Color de texto oscuro */
+    width: 100%;
+  }
+  
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .video-item {
+    background-color: #e0e0e0; /* Fondo claro para video items */
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añadir sombra para destacar los items */
+  }
+  
+  .video-item:hover {
+    transform: scale(1.05);
+  }
+  
+  .thumbnail {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .video-info {
+    width: 100%;
+    text-align: center;
+    font-family: 'Arial', sans-serif; /* Asegurar una tipografía clara */
+    color: #333; /* Color de texto oscuro para mejor legibilidad */
+  }
+  
+  .video-display {
+    width: 80%;
+    max-width: 800px;
+    background-color: #f4f4f4; /* Fondo claro para el área de visualización del video */
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para destacar el video en grande */
+    position: relative;
+  }
+  
+  iframe {
+    width: 100%;
+    height: 450px;
+    border: none;
+  }
+  
+  .back-button {
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Color verde para el botón de regreso */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    left: -80px;
+    font-family: 'Arial', sans-serif; /* Asegurar consistencia de tipografía */
+    font-weight: bold;
+  }
+  
+  .back-button:hover {
+    background-color: #45a049; /* Color más oscuro en hover para botón */
+  }
+  

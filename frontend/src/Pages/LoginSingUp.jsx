@@ -16,7 +16,7 @@ const LoginSignUp = () => {
   const login = async () => {
     console.log("Función del Login al 100", formData);
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ const LoginSignUp = () => {
   const signup = async () => {
     console.log("Función del SignUp al 100", formData);
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/signup`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}users/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

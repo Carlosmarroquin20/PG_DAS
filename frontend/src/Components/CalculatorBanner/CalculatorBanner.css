@@ -1,0 +1,155 @@
+.CalculatorBanner{
+    width: 65%;
+    height: 60vh;
+    display: flex;
+    margin: auto;
+    margin-top: 100px;
+    padding: 0px 140px;
+    margin-bottom: 150px;
+    background: linear-gradient(180deg, #81c386, #e1ffea22 60%);
+}
+
+.CalculatorBanner-right img {
+    max-width: 100%; /* ajusta el valor según sea necesario */
+    height: auto; /* para mantener la proporción */
+    border-radius: 10%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* sombra con desplazamiento horizontal de 0px, vertical de 4px, desenfoque de 10px y color negro con 30% de opacidad */
+}
+
+  
+
+.CalculatorBanner-left{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.CalculatorBanner-left h1{
+    color: #171717;
+    font-size: 80px;
+    font-weight: 600;
+}
+
+.CalculatorBanner-left p{
+    color: #171717;
+    font-size: 22px;
+    font-weight: 600;
+
+}
+
+.CalculatorBanner-left button{
+    width: 282px;
+    height: 70px;
+    border-radius: 35px;
+    background: #ff4141;
+    border: none;
+    color: white;
+    font-size: 22px;
+    font-weight: 500;
+    margin-top: 30px;
+    cursor: pointer;
+}
+
+.CalculatorBanner-right{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-top: 50px;
+}
+
+@media(max-width:1280px){
+    .CalculatorBanner{
+        padding: 0px 80px;
+        margin-bottom: 120px;
+        margin-top: -30px;
+    }
+    .CalculatorBanner-left h1{
+        font-size: 40px;
+    }
+    .CalculatorBanner-left p{
+        font-size: 18px;
+    }
+    .CalculatorBanner-right img{
+        width: 400px;
+    }
+    .CalculatorBanner-left button{
+        width: 220px;
+        height: 50px;
+        font-size: 18px;
+    }
+    .CalculatorBanner-right {
+        padding-top: 30px;
+    }
+}
+
+@media(max-width:1024px){
+    .CalculatorBanner{
+        padding: 0px 60px;
+        margin-bottom: 80px;
+        height: 40vh;
+        margin-top: -30px;
+    }
+    .CalculatorBanner-left h1{
+        font-size: 30px;
+    }
+    .CalculatorBanner-left p{
+        font-size: 16px;
+    }
+    .CalculatorBanner-right img{
+        width: 300px;
+    }
+    .CalculatorBanner-left button{
+        width: 160px;
+        height: 40px;
+        font-size: 16px;
+    }
+    .CalculatorBanner-right {
+        padding-top: 10px;
+    }
+}
+
+@media(max-width:800px){
+    .CalculatorBanner{
+        margin-bottom: 60px;
+        margin-top: -30px;
+    }
+    .CalculatorBanner-left h1{
+        font-size: 22px;
+    }
+    .CalculatorBanner-left p{
+        font-size: 13px;
+    }
+    .CalculatorBanner-right img{
+        width: 200px;
+    }
+    .CalculatorBanner-left button{
+        width: 140px;
+        height: 30px;
+        font-size: 12px;
+    }
+}
+
+@media(max-width:500px){
+    .CalculatorBanner{
+        height: 25vh;
+        margin-bottom: 50px;
+        margin-top: -30px;
+    }
+    .CalculatorBanner-left h1{
+        font-size: 16px;
+    }
+    .CalculatorBanner-left p{
+        font-size: 10px;
+    }
+    .CalculatorBanner-right img{
+        width: 120px;
+    }
+    .CalculatorBanner-left button{
+        width: 120px;
+        height: 25px;
+        font-size: 10px;
+        margin-top: 12px;
+    }
+}

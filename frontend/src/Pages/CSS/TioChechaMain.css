@@ -1,0 +1,16 @@
+.TioChechaMain {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .TioChechaMain h1 {
+    font-size: 2.5rem;
+    color: #4A2A18;
+  }
+  
+  .TioChechaMain p {
+    font-size: 1.2rem;
+    margin: 20px 0;
+    color: #6A4A34;
+  }
+  

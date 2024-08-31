@@ -1,0 +1,67 @@
+/* src/CSS/Contacto.css */
+.contacto-container {
+    display: flex;
+    flex-direction: column; /* Cambio para organizar los elementos en una columna */
+    align-items: center; /* Alinear los elementos al centro horizontalmente */
+    justify-content: flex-start; /* Alinear los elementos al inicio verticalmente */
+    background-color: #f7f7f7;
+    padding: 40px;
+    text-align: center; /* Alinear el texto al centro si es deseado */
+    width: 100%; /* Asegurar que el contenedor tome el ancho completo */
+}
+
+.text-section {
+    width: 80%; /* Ajustar el ancho para mantener la legibilidad del texto */
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px; /* Añadir espacio debajo de la sección de texto */
+}
+
+.text-section h1, .text-section h2 {
+    color: #005500;
+    margin-bottom: 0.5em;
+}
+
+.text-section h1 {
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+.text-section h2 {
+    font-size: 1.8em;
+    color: #007700;
+    font-weight: normal;
+}
+
+.text-section p {
+    font-size: 1.2em;
+    line-height: 1.8;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.contact-info {
+    background: #f0f0f0;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.contact-info h3 {
+    font-size: 1.5em;
+    color: #004400;
+}
+
+.contact-info p {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.image-section img {
+    max-width: 50%; /* Ajustar el ancho de la imagen para mantener proporciones adecuadas */
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* Opcional: añadir sombra para destacar la imagen */
+}

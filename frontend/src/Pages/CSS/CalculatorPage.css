@@ -1,0 +1,31 @@
+.calculator-page {
+  padding: 50px;
+  background-color: #eef2f3;
+}
+
+.calculator-page h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.calculator-page p {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+}
+
+.extra-info {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.extra-info h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.extra-info p {
+  font-size: 1.2rem;
+  color: #555;
+}

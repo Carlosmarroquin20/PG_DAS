@@ -7,6 +7,7 @@ const multer = require('multer');
 
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
+const orderRoutes = require('./routes/orderRoutes'); // Nueva ruta de órdenes
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -44,6 +45,7 @@ app.post("/upload", upload.single('product'), (req, res) => {
 // Uso de rutas
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/orders', orderRoutes); // Integrar rutas de órdenes
 
 // Iniciar el servidor
 app.listen(port, (error) => {

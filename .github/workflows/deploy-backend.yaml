@@ -20,7 +20,7 @@ jobs:
         working-directory: backend
         run: |
           npm install
-          echo MONGO_URL="mongodb+srv://Ema322:Master322GG@cluster0.j2f0i2y.mongodb.net/DasCommerce" > .env
+          echo mongodb+srv://Ema322:Master322GG@cluster0.j2f0i2y.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0 .env
 
       - name: Set up SSH key
         run: |

@@ -3,7 +3,7 @@ import { DasContext } from '../../Context/DasContext';
 import './Formulario.css';
 
 const OrderForm = () => {
-  const { cartItems, getTotalCartAmount } = useContext(DasContext);
+  const { cartItems, getTotalCartAmount, setCartItems } = useContext(DasContext); // Asegúrate de tener setCartItems para limpiar el carrito
   const [deliveryOption, setDeliveryOption] = useState('distributor');
   const [formData, setFormData] = useState({
     address: '',
@@ -51,7 +51,7 @@ const OrderForm = () => {
     }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}users/createorder`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}orders/create`, { // Cambio aquí
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ const OrderForm = () => {
 
       const data = await response.json();
 
-      if (data.success) {
+      if (response.ok) { // Se recomienda usar response.ok para verificar si la solicitud fue exitosa
         alert('Pedido realizado con éxito');
         setFormData({
           address: '',
@@ -70,7 +70,11 @@ const OrderForm = () => {
           extraPhone: '',
           comment: ''
         }); // Limpia el formulario
-        // Aquí también deberías limpiar el carrito o redirigir al usuario
+
+        setCartItems({}); // Limpia el carrito
+
+        // Aquí también podrías redirigir al usuario, por ejemplo:
+        // window.location.href = '/order-confirmation';
       } else {
         alert('Error al realizar el pedido: ' + (data.errors || 'Unknown Error'));
       }
