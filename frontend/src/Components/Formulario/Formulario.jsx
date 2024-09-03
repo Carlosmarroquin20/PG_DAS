@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
-import { DasContext } from '../../Context/DasContext';
+import { DasContext, getDefaulCart } from '../../Context/DasContext'; // Asegúrate de importar getDefaulCart
 import './Formulario.css';
 
 const OrderForm = () => {
-  const { cartItems, getTotalCartAmount, setCartItems } = useContext(DasContext); // Asegúrate de tener setCartItems para limpiar el carrito
+  const { cartItems, getTotalCartAmount, setCartItems } = useContext(DasContext); 
   const [deliveryOption, setDeliveryOption] = useState('distributor');
   const [formData, setFormData] = useState({
     address: '',
@@ -21,62 +21,68 @@ const OrderForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const userId = localStorage.getItem('userId'); 
+    const authToken = localStorage.getItem('auth-token'); 
+
+    if (!userId || !authToken) {
+      alert('Usuario no autenticado.');
+      return;
+    }
+
+    console.log('userId:', userId);
+    console.log('auth-token:', authToken);
+
     if (deliveryOption === 'delivery' && !formData.address) {
       alert('Por favor, proporciona una dirección de entrega.');
       return;
     }
 
-    const productsInCart = Object.keys(cartItems)
+    const products = Object.keys(cartItems)
       .filter(itemId => cartItems[itemId] > 0)
       .map(itemId => ({
         productId: itemId,
         quantity: cartItems[itemId]
       }));
 
-    if (!productsInCart.length) {
+    if (!products.length) {
       alert('No hay productos en el carrito.');
       return;
     }
 
     const orderData = {
-      products: productsInCart,
+      userId, 
+      products,
       total: getTotalCartAmount(),
       deliveryOption,
       ...formData
     };
 
-    if (!localStorage.getItem('auth-token')) {
-      alert('Por favor, inicie sesión para realizar un pedido.');
-      return;
-    }
-
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}orders/create`, { // Cambio aquí
+      const response = await fetch(`${process.env.REACT_APP_API_URL}orders/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'auth-token': localStorage.getItem('auth-token')
+          'auth-token': authToken 
         },
         body: JSON.stringify(orderData)
       });
 
       const data = await response.json();
 
-      if (response.ok) { // Se recomienda usar response.ok para verificar si la solicitud fue exitosa
+      if (response.ok) {
         alert('Pedido realizado con éxito');
         setFormData({
           address: '',
           phone: '',
           extraPhone: '',
           comment: ''
-        }); // Limpia el formulario
+        }); 
 
-        setCartItems({}); // Limpia el carrito
+        setCartItems(getDefaulCart()); // Limpia el carrito a su estado inicial
 
-        // Aquí también podrías redirigir al usuario, por ejemplo:
-        // window.location.href = '/order-confirmation';
       } else {
-        alert('Error al realizar el pedido: ' + (data.errors || 'Unknown Error'));
+        alert('Error al realizar el pedido: ' + (data.errors || data.message || 'Unknown Error'));
       }
     } catch (error) {
       console.error('Error al enviar el pedido:', error);

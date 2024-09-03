@@ -26,12 +26,14 @@ const LoginSignUp = () => {
       const responseData = await response.json();
       if (responseData.success) {
         localStorage.setItem('auth-token', responseData.token);
+        localStorage.setItem('userId', responseData.userId); // Guarda el userId en localStorage
         window.location.replace("/");
       } else {
-        alert(responseData.errors);
+        alert(responseData.errors || 'Error al iniciar sesión');
       }
     } catch (error) {
-      console.error('Error al realizar el registro:', error);
+      console.error('Error al iniciar sesión:', error);
+      alert('Error de conexión al iniciar sesión');
     }
   };
 
@@ -48,12 +50,14 @@ const LoginSignUp = () => {
       const responseData = await response.json();
       if (responseData.success) {
         localStorage.setItem('auth-token', responseData.token);
+        localStorage.setItem('userId', responseData.userId); // Guarda el userId en localStorage
         window.location.replace("/");
       } else {
-        alert(responseData.errors);
+        alert(responseData.errors || 'Error al registrarse');
       }
     } catch (error) {
       console.error('Error al realizar el registro:', error);
+      alert('Error de conexión al registrarse');
     }
   };
 

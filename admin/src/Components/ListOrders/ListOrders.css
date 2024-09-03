@@ -1,0 +1,158 @@
+/* Estilos generales */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f3f4f6; /* Fondo neutro claro */
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.list-orders {
+    margin: 40px auto;
+    max-width: 1200px;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+}
+
+.list-orders h1 {
+    text-align: center;
+    color: #38761d; /* Verde oscuro */
+    margin-bottom: 30px;
+    font-size: 2em;
+}
+
+/* Estilos de la tabla de órdenes */
+.listorders-format-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    padding: 15px;
+    font-weight: bold;
+    background-color: #6aa84f; /* Verde más claro */
+    color: #ffffff;
+    border-radius: 8px;
+}
+
+.listorders-allorders {
+    margin-top: 20px;
+}
+
+.listorders-format {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    padding: 15px;
+    background-color: #ffffff; /* Fondo blanco para filas */
+    margin-bottom: 10px;
+    border: 1px solid #d1e7dd; /* Bordes suaves */
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transición suave */
+}
+
+.listorders-format:hover {
+    background-color: #d9ead3; /* Verde pálido al pasar el mouse */
+    transform: translateY(-2px); /* Efecto de elevación */
+}
+
+.listorders-format p {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 1em;
+    color: #333; /* Color de texto principal */
+}
+
+.listorders-format button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #38761d; /* Verde oscuro para los botones */
+    color: #ffffff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+}
+
+.listorders-format button:hover {
+    background-color: #274e13; /* Verde más oscuro para hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra en hover */
+}
+
+/* Estilos del modal de detalles de la orden */
+.order-details-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 600px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.order-details-modal h2 {
+    color: #38761d; /* Verde oscuro */
+    margin-top: 0;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.order-details-modal p {
+    margin: 15px 0;
+    line-height: 1.6;
+    font-size: 1em;
+    color: #555;
+}
+
+.order-details-modal h3 {
+    margin: 20px 0 10px;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.order-details-modal ul {
+    list-style: none;
+    padding: 0;
+}
+
+.order-details-modal ul li {
+    background-color: #f1f8f4; /* Fondo claro con tinte verde */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #d1e7dd; /* Bordes suaves */
+}
+
+.order-details-modal button {
+    margin-top: 20px;
+    padding: 12px 25px;
+    border: none;
+    background-color: #b45f06; /* Tono tierra para el botón de cerrar */
+    color: #ffffff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.order-details-modal button:hover {
+    background-color: #783f04; /* Tono más oscuro para hover */
+    transform: translateY(-2px); /* Efecto de elevación en hover */
+}
+
+/* Fondo de modal */
+.order-details-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 500;
+}

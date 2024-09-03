@@ -1,10 +1,14 @@
+const mongoose = require('mongoose'); // Asegúrate de requerir mongoose al principio del archivo
 const Order = require('../models/Order');
 const User = require('../models/User');
 const Product = require('../models/Product');
 
 const createOrder = async (req, res) => {
     try {
-        const { userId, cartItems, total, deliveryOption, address, phone, extraPhone, comment } = req.body;
+        const { userId, products, total, deliveryOption, address, phone, extraPhone, comment } = req.body;
+
+        console.log('Received User ID:', userId); // Log para depuración
+        console.log('Received Products:', products); // Log para depuración
 
         // Verificar si el usuario existe
         const user = await User.findById(userId);
@@ -13,21 +17,22 @@ const createOrder = async (req, res) => {
         }
 
         // Validar si hay productos en el carrito
-        if (!cartItems || cartItems.length === 0) {
+        if (!products || products.length === 0) {
             return res.status(400).json({ message: 'El carrito de compras está vacío' });
         }
 
-        // Validar si cada producto existe
-        for (let item of cartItems) {
-            const product = await Product.findById(item.productId);
+        // Validar si cada producto existe y convertir ID a ObjectId
+        for (let item of products) {
+            const productId = new mongoose.Types.ObjectId(item.productId);
+            const product = await Product.findById(productId);
             if (!product) {
                 return res.status(404).json({ message: `Producto no encontrado: ${item.productId}` });
             }
         }
 
         // Construir la orden con los productos del carrito
-        const orderProducts = cartItems.map(item => ({
-            product: item.productId,
+        const orderProducts = products.map(item => ({
+            product: new mongoose.Types.ObjectId(item.productId), // Convierte a ObjectId
             quantity: item.quantity
         }));
 
@@ -67,4 +72,17 @@ const createOrder = async (req, res) => {
     }
 };
 
-module.exports = { createOrder };
+// Nueva función para obtener todas las órdenes
+const getAllOrders = async (req, res) => {
+    try {
+        const orders = await Order.find()
+            .populate('products.product', 'name new_price')
+            .populate('user', 'name email');
+        res.status(200).json({ success: true, orders });
+    } catch (error) {
+        console.error('Error al obtener las órdenes:', error);
+        res.status(500).json({ success: false, message: 'Error al obtener las órdenes', error: error.message });
+    }
+};
+
+module.exports = { createOrder, getAllOrders };

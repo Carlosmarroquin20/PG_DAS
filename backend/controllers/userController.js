@@ -28,12 +28,12 @@ exports.signup = async (req, res) => {
 
         const data = {
             user: {
-                id: user.id
+                id: user._id // Uso de _id para mayor consistencia con MongoDB
             }
         };
 
-        const token = jwt.sign(data, process.env.JWT_SECRET);
-        res.json({ success: true, token });
+        const token = jwt.sign(data, process.env.JWT_SECRET, { expiresIn: '1h' }); // Añadir expiración
+        res.json({ success: true, token, userId: user._id }); // Devolver token y userId
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, errors: "Error en el servidor" });
@@ -44,22 +44,22 @@ exports.login = async (req, res) => {
     try {
         let user = await Users.findOne({ email: req.body.email });
         if (!user) {
-            return res.json({ success: false, errors: "Email incorrecto" });
+            return res.status(400).json({ success: false, errors: "Email incorrecto" });
         }
 
         const passCompare = await bcrypt.compare(req.body.password, user.password);
         if (!passCompare) {
-            return res.json({ success: false, errors: "Contraseña incorrecta" });
+            return res.status(400).json({ success: false, errors: "Contraseña incorrecta" });
         }
 
         const data = {
             user: {
-                id: user.id
+                id: user._id
             }
         };
 
-        const token = jwt.sign(data, process.env.JWT_SECRET);
-        res.json({ success: true, token });
+        const token = jwt.sign(data, process.env.JWT_SECRET, { expiresIn: '1h' }); // Añadir expiración
+        res.json({ success: true, token, userId: user._id }); // Devolver token y userId
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, errors: "Error en el servidor" });
@@ -68,23 +68,41 @@ exports.login = async (req, res) => {
 
 exports.addToCart = async (req, res) => {
     console.log("Added", req.body.itemId);
-    let userData = await Users.findOne({ _id: req.user.id });
-    userData.cartData[req.body.itemId] += 1;
-    await Users.findOneAndUpdate({ _id: req.user.id }, { cartData: userData.cartData });
-    res.send("Added");
+    try {
+        let userData = await Users.findOne({ _id: req.user.id });
+        userData.cartData[req.body.itemId] += 1;
+        await Users.findOneAndUpdate({ _id: req.user.id }, { cartData: userData.cartData });
+        res.send("Added");
+    } catch (error) {
+        console.error("Error al agregar al carrito:", error);
+        res.status(500).send("Error al agregar al carrito");
+    }
 };
 
 exports.removeFromCart = async (req, res) => {
-    console.log("removed", req.body.itemId);
-    let userData = await Users.findOne({ _id: req.user.id });
-    if (userData.cartData[req.body.itemId] > 0)
-        userData.cartData[req.body.itemId] -= 1;
-    await Users.findOneAndUpdate({ _id: req.user.id }, { cartData: userData.cartData });
-    res.send("Removed");
+    console.log("Removed", req.body.itemId);
+    try {
+        let userData = await Users.findOne({ _id: req.user.id });
+        if (userData.cartData[req.body.itemId] > 0) {
+            userData.cartData[req.body.itemId] -= 1;
+            await Users.findOneAndUpdate({ _id: req.user.id }, { cartData: userData.cartData });
+            res.send("Removed");
+        } else {
+            res.status(400).send("Cantidad en el carrito ya es 0");
+        }
+    } catch (error) {
+        console.error("Error al remover del carrito:", error);
+        res.status(500).send("Error al remover del carrito");
+    }
 };
 
 exports.getCart = async (req, res) => {
     console.log("GetCart");
-    let userData = await Users.findOne({ _id: req.user.id });
-    res.json(userData.cartData);
+    try {
+        let userData = await Users.findOne({ _id: req.user.id });
+        res.json(userData.cartData);
+    } catch (error) {
+        console.error("Error al obtener el carrito:", error);
+        res.status(500).send("Error al obtener el carrito");
+    }
 };

@@ -3,15 +3,18 @@ const jwt = require('jsonwebtoken');
 const authMiddleware = (req, res, next) => {
     const token = req.header('auth-token');
     if (!token) {
-        return res.status(401).send({ errors: "Por favor autenticar usando un token valido" });
+        console.error("Error: Token de autenticación no proporcionado.");
+        return res.status(401).json({ errors: "No se proporcionó un token de autenticación. Por favor, autentíquese." });
     }
 
     try {
         const data = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = data.user;
+        req.user = data.user; // Aquí se espera que data.user contenga el userId
+        console.log(`Token verificado con éxito. Usuario ID: ${req.user.id}`);
         next();
     } catch (error) {
-        res.status(401).send({ errors: "Token inválido" });
+        console.error("Error: Token inválido o expirado.");
+        res.status(401).json({ errors: "Token inválido o expirado. Por favor, inicie sesión nuevamente." });
     }
 };
 

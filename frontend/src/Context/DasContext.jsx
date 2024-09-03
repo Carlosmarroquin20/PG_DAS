@@ -114,6 +114,7 @@ const DasContextProvider = (props) => {
         getTotalCartAmount,
         all_product,
         cartItems,
+        setCartItems, 
         addToCart,
         removeFromCart
     };
@@ -124,4 +125,4 @@ const DasContextProvider = (props) => {
     );
 };
 
-export default DasContextProvider;
+export { DasContextProvider as default, getDefaulCart }; // Exporta getDefaulCart
