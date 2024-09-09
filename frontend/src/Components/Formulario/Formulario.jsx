@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import Swal from 'sweetalert2'; // Importa SweetAlert2
 import { DasContext, getDefaulCart } from '../../Context/DasContext'; // Asegúrate de importar getDefaulCart
 import './Formulario.css';
 
@@ -26,15 +27,20 @@ const OrderForm = () => {
     const authToken = localStorage.getItem('auth-token'); 
 
     if (!userId || !authToken) {
-      alert('Usuario no autenticado.');
+      Swal.fire({
+        title: 'Error',
+        text: 'Usuario no autenticado.',
+        icon: 'error'
+      });
       return;
     }
 
-    console.log('userId:', userId);
-    console.log('auth-token:', authToken);
-
     if (deliveryOption === 'delivery' && !formData.address) {
-      alert('Por favor, proporciona una dirección de entrega.');
+      Swal.fire({
+        title: 'Error',
+        text: 'Por favor, proporciona una dirección de entrega.',
+        icon: 'warning'
+      });
       return;
     }
 
@@ -46,7 +52,11 @@ const OrderForm = () => {
       }));
 
     if (!products.length) {
-      alert('No hay productos en el carrito.');
+      Swal.fire({
+        title: 'Error',
+        text: 'No hay productos en el carrito.',
+        icon: 'warning'
+      });
       return;
     }
 
@@ -58,36 +68,62 @@ const OrderForm = () => {
       ...formData
     };
 
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}orders/create`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'auth-token': authToken 
-        },
-        body: JSON.stringify(orderData)
-      });
+    // Muestra una alerta de confirmación antes de proceder con el envío
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¡No podrás revertir esta acción!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, realizar pedido"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch(`${process.env.REACT_APP_API_URL}orders/create`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'auth-token': authToken 
+            },
+            body: JSON.stringify(orderData)
+          });
 
-      const data = await response.json();
+          const data = await response.json();
 
-      if (response.ok) {
-        alert('Pedido realizado con éxito');
-        setFormData({
-          address: '',
-          phone: '',
-          extraPhone: '',
-          comment: ''
-        }); 
+          if (response.ok) {
+            Swal.fire({
+              title: '¡Pedido realizado!',
+              text: 'Tu pedido ha sido realizado con éxito',
+              icon: 'success'
+            });
 
-        setCartItems(getDefaulCart()); // Limpia el carrito a su estado inicial
+            setFormData({
+              address: '',
+              phone: '',
+              extraPhone: '',
+              comment: ''
+            }); 
 
-      } else {
-        alert('Error al realizar el pedido: ' + (data.errors || data.message || 'Unknown Error'));
+            setCartItems(getDefaulCart()); // Limpia el carrito a su estado inicial
+
+          } else {
+            Swal.fire({
+              title: 'Error',
+              text: `Error al realizar el pedido: ${data.errors || data.message || 'Error desconocido'}`,
+              icon: 'error'
+            });
+          }
+        } catch (error) {
+          console.error('Error al enviar el pedido:', error);
+          Swal.fire({
+            title: 'Error',
+            text: 'Error al enviar el pedido',
+            icon: 'error'
+          });
+        }
       }
-    } catch (error) {
-      console.error('Error al enviar el pedido:', error);
-      alert('Error al enviar el pedido');
-    }
+    });
   };
 
   return (

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Swal from 'sweetalert2'; // Importa SweetAlert2
 import './CSS/LoginSignup.css';
 
 const LoginSignUp = () => {
@@ -27,13 +28,27 @@ const LoginSignUp = () => {
       if (responseData.success) {
         localStorage.setItem('auth-token', responseData.token);
         localStorage.setItem('userId', responseData.userId); // Guarda el userId en localStorage
-        window.location.replace("/");
+        Swal.fire({
+          title: 'Inicio de sesión exitoso',
+          text: 'Has iniciado sesión correctamente',
+          icon: 'success',
+        }).then(() => {
+          window.location.replace("/");
+        });
       } else {
-        alert(responseData.errors || 'Error al iniciar sesión');
+        Swal.fire({
+          title: 'Error',
+          text: responseData.errors || 'Error al iniciar sesión',
+          icon: 'error',
+        });
       }
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
-      alert('Error de conexión al iniciar sesión');
+      Swal.fire({
+        title: 'Error',
+        text: 'Error de conexión al iniciar sesión',
+        icon: 'error',
+      });
     }
   };
 
@@ -51,13 +66,27 @@ const LoginSignUp = () => {
       if (responseData.success) {
         localStorage.setItem('auth-token', responseData.token);
         localStorage.setItem('userId', responseData.userId); // Guarda el userId en localStorage
-        window.location.replace("/");
+        Swal.fire({
+          title: 'Registro exitoso',
+          text: 'Te has registrado correctamente',
+          icon: 'success',
+        }).then(() => {
+          window.location.replace("/");
+        });
       } else {
-        alert(responseData.errors || 'Error al registrarse');
+        Swal.fire({
+          title: 'Error',
+          text: responseData.errors || 'Error al registrarse',
+          icon: 'error',
+        });
       }
     } catch (error) {
       console.error('Error al realizar el registro:', error);
-      alert('Error de conexión al registrarse');
+      Swal.fire({
+        title: 'Error',
+        text: 'Error de conexión al registrarse',
+        icon: 'error',
+      });
     }
   };
 

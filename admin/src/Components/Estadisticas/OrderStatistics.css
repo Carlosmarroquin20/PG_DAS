@@ -1,0 +1,80 @@
+.statistics-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+}
+
+.statistics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 40px;
+}
+
+.statistics-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-title {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: bold;
+    color: #3b82f6;
+}
+
+.chart-container {
+    width: 100%;
+    max-width: 800px; /* Ajusta el tamaño máximo del gráfico */
+    height: 500px; /* Ajusta la altura del gráfico */
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 24px;
+    color: #333;
+    margin: 30px 0 20px 0;
+    text-align: center;
+}
+
+@media (min-width: 1024px) {
+    .chart-container {
+      max-width: 800px; /* Ajusta el tamaño de la gráfica en pantallas grandes */
+    }
+}
+
+@media (max-width: 768px) {
+    .chart-container {
+      max-width: 100%; /* Asegura que se vea bien en pantallas pequeñas */
+    }
+
+    .statistics-grid {
+      grid-template-columns: 1fr; /* Las tarjetas ocupan toda la fila en pantallas pequeñas */
+    }
+}

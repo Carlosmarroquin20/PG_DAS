@@ -2,6 +2,7 @@ import React from 'react';
 import Calculator from '../Components/Calculator/Calculator';
 import './CSS/CalculatorPage.css';
 import YouTubeComponent from '../Components/YouTubeStyle/YouTubeStyle';
+import Allproducts from '../Components/Allproducts/Allproducts';
 
 
 const CalculatorPage = () => {
@@ -15,6 +16,7 @@ const CalculatorPage = () => {
         <p>Además de la calculadora, aquí podrás encontrar más recursos y videos para aprender a mejorar tu cultivo.</p>
       </div>
       <YouTubeComponent />
+      <Allproducts />
     </div>
 
   );

@@ -41,11 +41,15 @@ app.post("/upload", upload.single('product'), (req, res) => {
         image_url: `http://localhost:${port}/images/${req.file.filename}`
     });
 });
+const reviewRoutes = require('./routes/reviewRoutes');
+
+
 
 // Uso de rutas
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/orders', orderRoutes); // Integrar rutas de órdenes
+app.use('/api/orders', orderRoutes);
+app.use('/api/reviews', reviewRoutes); // Integrar rutas de reseñas // Integrar rutas de órdenes
 
 // Iniciar el servidor
 app.listen(port, (error) => {

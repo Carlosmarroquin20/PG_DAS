@@ -1,0 +1,75 @@
+/* Contenedor general */
+.products-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f0f9f0; /* Fondo en un tono verde claro, inspirado en el logo */
+  }
+  
+  /* Tarjeta de producto */
+  .product-card {
+    background-color: #ffffff; /* Blanco puro para un look limpio */
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil para profundidad */
+    width: 220px;
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    cursor: pointer;
+    border: 1px solid #d4e7d4; /* Un borde suave en tono verde */
+  }
+  
+  .product-card:hover {
+    transform: scale(1.05); /* Efecto de zoom al pasar el mouse */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Más sombra en hover */
+    border: 1px solid #8bb98b; /* Color verde más oscuro en hover */
+  }
+  
+  /* Imagen del producto */
+  .product-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  /* Nombre del producto */
+  .product-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #4a7a4a; /* Verde más oscuro para el título */
+    margin-bottom: 8px;
+  }
+  
+  /* Descripción del producto */
+  .product-description {
+    font-size: 14px;
+    color: #6b8b6b; /* Verde suave para texto secundario */
+    margin-bottom: 12px;
+    height: 45px; /* Limitar la altura de la descripción */
+    overflow: hidden; /* Ocultar el texto que desborde */
+    text-overflow: ellipsis; /* Agregar puntos suspensivos al texto que no cabe */
+  }
+  
+  /* Precio del producto */
+  .product-price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #f77f00; /* Naranja vibrante para resaltar el precio */
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .products-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .product-card {
+      width: 90%; /* Que las tarjetas ocupen casi todo el ancho en pantallas pequeñas */
+    }
+  }
+  
