@@ -25,7 +25,10 @@ ChartJS.register(
 
 const OrderStatistics = () => {
   const [statistics, setStatistics] = useState(null);
-  const [topBuyers, setTopBuyers] = useState(null); // Nuevo estado para compradores frecuentes
+  const [topBuyers, setTopBuyers] = useState(null);
+  const [dateStats, setDateStats] = useState(null);
+  const [stateStats, setStateStats] = useState(null);
+  const [deliveryStats, setDeliveryStats] = useState(null); // Nuevo estado para las estadísticas de entrega
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -34,16 +37,48 @@ const OrderStatistics = () => {
     try {
       const response = await fetch('http://localhost:4000/api/orders/statistics');
       const data = await response.json();
-
       if (data.success) {
-        setStatistics(data.statistics);
+        setStatistics(data);
+        console.log("Estadísticas generales:", data);
       } else {
-        setError('Error al obtener las estadísticas');
+        setError('Error al obtener las estadísticas generales');
       }
     } catch (error) {
-      setError('Error de conexión al obtener las estadísticas');
+      setError('Error de conexión al obtener las estadísticas generales');
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Fetch para obtener estadísticas por fecha
+  const fetchDateStatistics = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/api/orders/statistics/date');
+      const data = await response.json();
+      if (data.success) {
+        setDateStats(data);
+        console.log("Estadísticas por fecha:", data);
+      } else {
+        setError('Error al obtener las estadísticas por fecha');
+      }
+    } catch (error) {
+      setError('Error de conexión al obtener las estadísticas por fecha');
+    }
+  };
+
+  // Fetch para obtener estadísticas por estado
+  const fetchStateStatistics = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/api/orders/statistics/state');
+      const data = await response.json();
+      if (data.success) {
+        setStateStats(data.orderStates);
+        console.log("Estadísticas por estado:", data);
+      } else {
+        setError('Error al obtener las estadísticas por estado');
+      }
+    } catch (error) {
+      setError('Error de conexión al obtener las estadísticas por estado');
     }
   };
 
@@ -52,9 +87,9 @@ const OrderStatistics = () => {
     try {
       const response = await fetch('http://localhost:4000/api/orders/topbuyers');
       const data = await response.json();
-
       if (data.success) {
-        setTopBuyers(data.topBuyers); // Guardar los compradores frecuentes
+        setTopBuyers(data.topBuyers);
+        console.log("Compradores frecuentes:", data.topBuyers);
       } else {
         setError('Error al obtener los compradores frecuentes');
       }
@@ -63,65 +98,59 @@ const OrderStatistics = () => {
     }
   };
 
+  // Fetch para obtener estadísticas de las opciones de entrega
+  const fetchDeliveryStatistics = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/api/orders/statistics/delivery');
+      const data = await response.json();
+      if (data.success) {
+        setDeliveryStats(data.deliveryOptions);
+        console.log("Estadísticas de opciones de entrega:", data.deliveryOptions);
+      } else {
+        setError('Error al obtener las estadísticas de entrega');
+      }
+    } catch (error) {
+      setError('Error de conexión al obtener las estadísticas de entrega');
+    }
+  };
+
   useEffect(() => {
     fetchStatistics();
-    fetchTopBuyers(); // Cargar los compradores frecuentes
+    fetchDateStatistics();
+    fetchStateStatistics();
+    fetchTopBuyers();
+    fetchDeliveryStatistics(); // Nuevo fetch para las opciones de entrega
   }, []);
 
   if (loading) return <div className="loading-message">Cargando estadísticas...</div>;
   if (error) return <div className="error-message">{error}</div>;
 
-  // Datos para el gráfico de barras: Pedidos por mes
-  const ordersByMonthData = statistics?.ordersByMonth
-    ? {
-        labels: statistics.ordersByMonth.map(item => `Mes ${item._id}`),
-        datasets: [
-          {
-            label: 'Pedidos por Mes',
-            data: statistics.ordersByMonth.map(item => item.count),
-            backgroundColor: 'rgba(75, 192, 192, 0.6)',
-            barThickness: 50,
-          }
-        ]
-      }
-    : null;
+  // Verificación de que las estadísticas no sean null
+  if (!statistics || !dateStats || !stateStats || !topBuyers || !deliveryStats) {
+    return <div className="error-message">No se encontraron estadísticas.</div>;
+  }
 
   // Datos para el gráfico de pastel: Opción de entrega más usada
   const deliveryOptionsData = {
-    labels: ['Delivery', 'Distributor'],
+    labels: deliveryStats.map(option => option._id), // Mapea las opciones de entrega
     datasets: [
       {
         label: 'Opciones de Entrega',
-        data: [statistics.deliveredOrders, statistics.totalOrders - statistics.deliveredOrders],
+        data: deliveryStats.map(option => option.count), // Mapea los conteos de las opciones
         backgroundColor: ['rgba(118, 174, 101, 0.8)', 'rgba(175, 128, 79, 0.8)'],
         hoverOffset: 4,
       }
     ]
   };
 
-  // Datos para el gráfico de barras: Productos más vendidos
-  const bestSellingProductsData = statistics?.bestSellingProducts
-    ? {
-        labels: statistics.bestSellingProducts.map(item => item.productInfo.name),
-        datasets: [
-          {
-            label: 'Cantidad Vendida',
-            data: statistics.bestSellingProducts.map(item => item.totalSold),
-            backgroundColor: 'rgba(101, 173, 103, 0.8)',
-            barThickness: 50,
-          }
-        ]
-      }
-    : null;
-
   // Datos para el gráfico de barras: Compradores más frecuentes
   const topBuyersData = topBuyers
     ? {
-        labels: topBuyers.map(buyer => buyer.userInfo.name), // Nombres de los compradores
+        labels: topBuyers.map(buyer => buyer.userInfo.name),
         datasets: [
           {
             label: 'Número de Compras',
-            data: topBuyers.map(buyer => buyer.totalOrders), // Cantidad de compras por cada comprador
+            data: topBuyers.map(buyer => buyer.totalOrders),
             backgroundColor: 'rgba(255, 159, 64, 0.6)',
             barThickness: 50,
           }
@@ -129,6 +158,22 @@ const OrderStatistics = () => {
       }
     : null;
 
+  // Datos para el gráfico de barras: Pedidos por estado
+  const orderStatesData = stateStats
+    ? {
+        labels: stateStats.map(state => state._id),
+        datasets: [
+          {
+            label: 'Número de Pedidos',
+            data: stateStats.map(state => state.count),
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            barThickness: 50,
+          }
+        ]
+      }
+    : null;
+
+  // Opciones del gráfico
   const options = {
     responsive: true,
     plugins: {
@@ -176,34 +221,12 @@ const OrderStatistics = () => {
           <p className="stat-title">Ingresos Totales</p>
           <p className="stat-value">${statistics.totalIncome}</p>
         </div>
-        <div className="statistics-card">
-          <p className="stat-title">Opción de Entrega más Usada</p>
-          <p className="stat-value">{statistics.mostUsedDeliveryOption}</p>
-        </div>
       </div>
-
-      {ordersByMonthData && (
-        <>
-          <h2>Pedidos por Mes</h2>
-          <div className="chart-container">
-            <Bar data={ordersByMonthData} options={options} />
-          </div>
-        </>
-      )}
 
       <h2>Opción de Entrega Usada</h2>
       <div className="chart-container">
         <Pie data={deliveryOptionsData} options={options} />
       </div>
-
-      {bestSellingProductsData && (
-        <>
-          <h2>Productos Más Vendidos</h2>
-          <div className="chart-container">
-            <Bar data={bestSellingProductsData} options={options} />
-          </div>
-        </>
-      )}
 
       {topBuyersData && (
         <>
@@ -212,6 +235,32 @@ const OrderStatistics = () => {
             <Bar data={topBuyersData} options={options} />
           </div>
         </>
+      )}
+
+      {orderStatesData && (
+        <>
+          <h2>Pedidos por Estado</h2>
+          <div className="chart-container">
+            <Bar data={orderStatesData} options={options} />
+          </div>
+        </>
+      )}
+
+      {dateStats && (
+        <div className="statistics-grid">
+          <div className="statistics-card">
+            <p className="stat-title">Pedidos de Hoy</p>
+            <p className="stat-value">{dateStats.ordersToday}</p>
+          </div>
+          <div className="statistics-card">
+            <p className="stat-title">Pedidos del Mes</p>
+            <p className="stat-value">{dateStats.ordersThisMonth}</p>
+          </div>
+          <div className="statistics-card">
+            <p className="stat-title">Pedidos del Año</p>
+            <p className="stat-value">{dateStats.ordersThisYear}</p>
+          </div>
+        </div>
       )}
     </div>
   );

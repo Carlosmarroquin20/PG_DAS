@@ -1,10 +1,10 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';  // Importar SweetAlert2
 import './ListProduct.css';
 import cross_icon from '../../assets/cross_icon.png';
 import edit_icon from '../../assets/edit_icon.png';
 
 const ListProduct = () => {
-
   const [allproducts, setAllProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
   const [formData, setFormData] = useState({
@@ -24,6 +24,25 @@ const ListProduct = () => {
     fetchInfo();
   }, []);
 
+  // Confirmación antes de eliminar el producto
+  const confirmRemoveProduct = (id) => {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡No podrás revertir esta acción!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminarlo',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        removeProduct(id);  // Llama a la función para eliminar si el usuario confirma
+      }
+    });
+  };
+
+  // Función para eliminar el producto
   const removeProduct = async (id) => {
     await fetch('http://localhost:4000/api/products/removeproduct', {
       method: 'POST',
@@ -33,9 +52,13 @@ const ListProduct = () => {
       },
       body: JSON.stringify({ id })
     });
+
+    Swal.fire('Eliminado', 'El producto ha sido eliminado', 'success');  // Mostrar mensaje de éxito
+
     await fetchInfo();
   }
 
+  // Función para editar un producto
   const editProduct = (product) => {
     setEditingProduct(product.id);
     setFormData({
@@ -46,6 +69,7 @@ const ListProduct = () => {
     });
   }
 
+  // Función para guardar el producto
   const saveProduct = async (id) => {
     await fetch('http://localhost:4000/api/products/updateproduct', {
       method: 'POST',
@@ -55,12 +79,17 @@ const ListProduct = () => {
       },
       body: JSON.stringify({ id, ...formData })
     });
+
+    Swal.fire('Guardado', 'El producto ha sido actualizado exitosamente', 'success');  // Mostrar mensaje de éxito
+
     setEditingProduct(null);
     await fetchInfo();
   }
 
+  // Función para cancelar la edición
   const cancelEdit = () => {
     setEditingProduct(null);
+    Swal.fire('Cancelado', 'La edición ha sido cancelada', 'info');  // Mostrar mensaje de cancelación
   }
 
   const handleChange = (e) => {
@@ -107,7 +136,7 @@ const ListProduct = () => {
                 <p>${product.new_price}</p>
                 <p>{product.category}</p>
                 <img onClick={() => editProduct(product)} className='listproduct-edit-icon' src={edit_icon} alt="Editar" />
-                <img onClick={() => removeProduct(product.id)} className='listproduct-remove-icon' src={cross_icon} alt="Eliminar" />
+                <img onClick={() => confirmRemoveProduct(product.id)} className='listproduct-remove-icon' src={cross_icon} alt="Eliminar" />
               </div>
             )}
             <hr />

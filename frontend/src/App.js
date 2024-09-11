@@ -9,7 +9,8 @@ import LoginSingUp from './Pages/LoginSingUp';
 import Footer from './Components/Footer/Footer';
 import Contacto from './Pages/Contacto';
 import TioChechaMain from './Pages/TioChechaMain';
-import CalculatorPage from './Pages/CalculatorPage'; // Importa la página de la calculadora
+import CalculatorPage from './Pages/CalculatorPage';
+import Allproducts from './Pages/Allproducts'; // Importa la página de la calculadora
 
 import banner_ferti from './Components/Assets/banner_fertilizantes.png';
 import banner_foliar from './Components/Assets/banner_foliares.png';
@@ -32,7 +33,8 @@ function App() {
           <Route path='/login' element={<LoginSingUp/>}/>
           <Route path='/Contacto' element={<Contacto/>}/>
           <Route path='/TPMAIN' element={<TioChechaMain/>}/>
-          <Route path='/calculator' element={<CalculatorPage/>}/> {/* Añadir la ruta de la calculadora */}
+          <Route path='/Allproducts' element={<Allproducts/>}/>
+          <Route path='/calculator' element={<CalculatorPage/>}/> 
         </Routes>
         <Footer/>
       </BrowserRouter>

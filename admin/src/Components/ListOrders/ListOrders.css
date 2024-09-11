@@ -7,49 +7,82 @@ body {
     padding: 0;
 }
 
+/* Contenedor principal */
 .list-orders {
     margin: 40px auto;
-    max-width: 1200px;
+    max-width: 95%;
     padding: 30px;
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+    transition: box-shadow 0.3s ease;
+}
+
+.list-orders:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada en hover */
 }
 
 .list-orders h1 {
     text-align: center;
     color: #38761d; /* Verde oscuro */
     margin-bottom: 30px;
-    font-size: 2em;
+    font-size: 2.5em;
 }
 
 /* Estilos de la tabla de órdenes */
 .listorders-format-main {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
     align-items: center;
     padding: 15px;
     font-weight: bold;
     background-color: #6aa84f; /* Verde más claro */
     color: #ffffff;
     border-radius: 8px;
-    margin-bottom: 10px; /* Añadido para separación visual */
+    margin-bottom: 10px;
 }
 
+/* Estilos adaptables para pantallas pequeñas */
+@media (max-width: 768px) {
+    .listorders-format-main,
+    .listorders-format {
+        grid-template-columns: repeat(2, 1fr); /* Ajusta las columnas en pantallas pequeñas */
+    }
+
+    .listorders-format button {
+        font-size: 0.8em;
+        padding: 8px;
+    }
+
+    .order-details-modal {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .listorders-format-main {
+        grid-template-columns: repeat(1, 1fr); /* Ajusta las columnas a una sola columna */
+    }
+}
+
+/* Lista de todas las órdenes */
 .listorders-allorders {
     margin-top: 20px;
 }
 
+/* Filas de la tabla de órdenes */
 .listorders-format {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
     align-items: center;
     padding: 15px;
     background-color: #ffffff; /* Fondo blanco para filas */
     margin-bottom: 10px;
     border: 1px solid #d1e7dd; /* Bordes suaves */
     border-radius: 8px;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Transición suave */
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .listorders-format:hover {
@@ -65,6 +98,7 @@ body {
     color: #333; /* Color de texto principal */
 }
 
+/* Estilos de los botones */
 .listorders-format button {
     padding: 10px 20px;
     border: none;
@@ -73,6 +107,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.2s ease;
+    font-size: 1em;
 }
 
 .listorders-format button:hover {
@@ -80,41 +115,50 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra en hover */
 }
 
-/* Estilos del modal de detalles de la orden */
+.listorders-format button:focus {
+    outline: none;
+    box-shadow: 0 0 8px #38761d; /* Resaltar el botón en foco */
+}
+
+/* Estilos del modal */
 .order-details-modal {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80%;
+    width: 90%;
     max-width: 600px;
     background-color: #ffffff;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    overflow-y: auto; /* Permitir desplazamiento vertical */
-    max-height: 80vh; /* Altura máxima de la ventana modal */
+    overflow-y: auto; /* Permitir desplazamiento vertical si el contenido es grande */
+    max-height: 80vh; /* Limitar la altura del modal */
+    font-family: 'Roboto', sans-serif; /* Fuente clara y legible */
+    color: #333;
 }
 
 .order-details-modal h2 {
     color: #38761d; /* Verde oscuro */
     margin-top: 0;
     text-align: center;
-    font-size: 1.5em;
+    font-size: 2em;
+    margin-bottom: 20px;
 }
 
 .order-details-modal p {
-    margin: 15px 0;
-    line-height: 1.6;
-    font-size: 1em;
+    margin: 10px 0;
+    font-size: 1.1em;
+    line-height: 1.5;
     color: #555;
 }
 
 .order-details-modal h3 {
     margin: 20px 0 10px;
     color: #333;
-    font-size: 1.2em;
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
 .order-details-modal ul {
@@ -128,44 +172,76 @@ body {
     border-radius: 5px;
     margin-bottom: 10px;
     border: 1px solid #d1e7dd; /* Bordes suaves */
+    font-size: 1em;
 }
 
+/* Selector para cambiar el estado */
+.order-details-modal label {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    margin-right: 10px;
+}
+
+.order-details-modal select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    margin-left: 10px;
+    background-color: #f9f9f9;
+    color: #333;
+    width: 100%; /* Ocupa el 100% del ancho disponible */
+    max-width: 300px; /* Máximo tamaño para evitar que sea demasiado ancho */
+}
+
+.order-details-modal select:focus {
+    border-color: #b45f06; /* Cambia el borde cuando se enfoca */
+    outline: none;
+}
+
+/* Estilos de los botones */
 .order-details-modal button {
     margin-top: 20px;
     padding: 12px 25px;
     border: none;
-    background-color: #b45f06; /* Tono tierra para el botón de cerrar */
+    background-color: #b45f06; /* Tono tierra para los botones */
     color: #ffffff;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.order-details-modal button:last-child {
+    margin-right: 0; /* Elimina el margen del último botón */
 }
 
 .order-details-modal button:hover {
     background-color: #783f04; /* Tono más oscuro para hover */
-    transform: translateY(-2px); /* Efecto de elevación en hover */
+    transform: translateY(-2px); /* Efecto de elevación */
 }
 
-/* Fondo de modal */
-.order-details-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 500;
+.order-details-modal button:focus {
+    outline: none;
+    box-shadow: 0 0 8px #b45f06; /* Añade un efecto de foco */
 }
 
-/* Estilos para la barra de desplazamiento del modal */
-.order-details-modal::-webkit-scrollbar {
-    width: 8px;
+/* Alinear los botones en fila */
+.order-details-actions {
+    display: flex;
+    justify-content: space-between; /* Espacio uniforme entre botones */
+    margin-top: 20px;
+    flex-wrap: wrap; /* Permitir que los botones se muevan a la siguiente fila en pantallas pequeñas */
 }
 
-.order-details-modal::-webkit-scrollbar-thumb {
-    background-color: #38761d; /* Verde para el scroll */
-    border-radius: 8px;
+@media (max-width: 600px) {
+    .order-details-actions {
+        flex-direction: column; /* Alinear botones en columna en pantallas pequeñas */
+    }
+
+    .order-details-modal select {
+        max-width: 100%; /* Asegurarse de que el selector ocupe todo el ancho en pantallas pequeñas */
+    }
 }

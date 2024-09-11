@@ -38,6 +38,11 @@ const orderSchema = new mongoose.Schema({
     comment: {
         type: String,
     },
+    state: {
+        type: String,
+        enum: ["Pendiente", "En Proceso", "Entregada"],  // Opciones posibles
+        default: "Pendiente",  // Valor por defecto
+    },
     date: {
         type: Date,
         default: Date.now,

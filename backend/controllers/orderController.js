@@ -8,9 +8,6 @@ const createOrder = async (req, res) => {
     try {
         const { userId, products, total, deliveryOption, address, phone, extraPhone, comment } = req.body;
 
-        console.log('Received User ID:', userId);
-        console.log('Received Products:', products);
-
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
@@ -69,41 +66,119 @@ const getAllOrders = async (req, res) => {
     }
 };
 
-// Función para obtener estadísticas
-const getOrderStatistics = async (req, res) => {
+// Función para obtener estadísticas por opciones de entrega
+const getOrderStatisticsByDeliveryOption = async (req, res) => {
     try {
-        const totalOrders = await Order.countDocuments();
-        const deliveredOrders = await Order.countDocuments({ deliveryOption: 'delivery' });
-        const totalIncome = await Order.aggregate([
-            { $group: { _id: null, totalIncome: { $sum: "$total" } } }
-        ]);
-        const mostUsedDeliveryOption = await Order.aggregate([
-            { $group: { _id: "$deliveryOption", count: { $sum: 1 } } },
-            { $sort: { count: -1 } },
-            { $limit: 1 }
+        const deliveryOptions = await Order.aggregate([
+            {
+                $group: {
+                    _id: "$deliveryOption",
+                    count: { $sum: 1 }
+                }
+            }
         ]);
 
-        const bestSellingProducts = await Order.aggregate([
-            { $unwind: "$products" },
-            { $group: { _id: "$products.product", totalSold: { $sum: "$products.quantity" } } },
-            { $lookup: { from: "products", localField: "_id", foreignField: "_id", as: "productInfo" } },
-            { $unwind: "$productInfo" },
-            { $sort: { totalSold: -1 } },
-            { $limit: 5 }
-        ]);
-
-        const statistics = {
-            totalOrders,
-            deliveredOrders,
-            totalIncome: totalIncome[0]?.totalIncome || 0,
-            mostUsedDeliveryOption: mostUsedDeliveryOption[0]?._id || 'N/A',
-            bestSellingProducts
-        };
-
-        res.status(200).json({ success: true, statistics });
+        res.status(200).json({
+            success: true,
+            deliveryOptions
+        });
     } catch (error) {
-        console.error('Error al obtener las estadísticas:', error);
-        res.status(500).json({ success: false, message: 'Error al obtener las estadísticas', error: error.message });
+        res.status(500).json({ success: false, message: 'Error obteniendo estadísticas por opciones de entrega', error: error.message });
+    }
+};
+
+
+// Función para actualizar el estado de la orden
+const updateOrderState = async (req, res) => {
+    try {
+        const { orderId, newState } = req.body;
+
+        if (!["Pendiente", "En Proceso", "Entregada"].includes(newState)) {
+            return res.status(400).json({ message: 'Estado de la orden no válido' });
+        }
+
+        const updatedOrder = await Order.findByIdAndUpdate(orderId, { state: newState }, { new: true });
+
+        if (!updatedOrder) {
+            return res.status(404).json({ message: 'Orden no encontrada' });
+        }
+
+        res.status(200).json({ message: 'Estado de la orden actualizado exitosamente', order: updatedOrder });
+    } catch (error) {
+        console.error('Error al actualizar el estado de la orden:', error);
+        res.status(500).json({ message: 'Error al actualizar el estado de la orden', error: error.message });
+    }
+};
+
+// NUEVA FUNCION: Pedidos por día, mes y año
+const getOrderStatisticsByDate = async (req, res) => {
+    try {
+        const today = new Date();
+        const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        const startOfYear = new Date(today.getFullYear(), 0, 1);
+
+        // Pedidos del día
+        const ordersToday = await Order.countDocuments({
+            date: { $gte: startOfDay }
+        });
+
+        // Pedidos del mes
+        const ordersThisMonth = await Order.countDocuments({
+            date: { $gte: startOfMonth }
+        });
+
+        // Pedidos del año
+        const ordersThisYear = await Order.countDocuments({
+            date: { $gte: startOfYear }
+        });
+
+        res.status(200).json({
+            success: true,
+            ordersToday,
+            ordersThisMonth,
+            ordersThisYear
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error obteniendo estadísticas por fecha', error: error.message });
+    }
+};
+
+// NUEVA FUNCION: Pedidos por estado (Pendiente, En Proceso, Entregada)
+const getOrderStatisticsByState = async (req, res) => {
+    try {
+        const orderStates = await Order.aggregate([
+            {
+                $group: {
+                    _id: "$state",
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+
+        res.status(200).json({
+            success: true,
+            orderStates
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error obteniendo estadísticas por estado', error: error.message });
+    }
+};
+
+// Función para eliminar una orden
+const deleteOrder = async (req, res) => {
+    try {
+        const { orderId } = req.params;
+
+        const order = await Order.findByIdAndDelete(orderId);
+        if (!order) {
+            return res.status(404).json({ message: 'Orden no encontrada' });
+        }
+
+        res.status(200).json({ message: 'Orden eliminada exitosamente' });
+    } catch (error) {
+        console.error('Error al eliminar la orden:', error);
+        res.status(500).json({ message: 'Error al eliminar la orden', error: error.message });
     }
 };
 
@@ -145,5 +220,35 @@ const getTopBuyers = async (req, res) => {
     }
 };
 
-// Exportar todas las funciones
-module.exports = { createOrder, getAllOrders, getOrderStatistics, getTopBuyers };
+// Función básica de estadísticas generales
+const getOrderStatistics = async (req, res) => {
+    try {
+        const totalOrders = await Order.countDocuments();
+        // Contar solo los pedidos con estado "Entregada"
+        const deliveredOrders = await Order.countDocuments({ state: 'Entregada' });
+        const totalIncome = await Order.aggregate([
+            { $group: { _id: null, totalIncome: { $sum: "$total" } } }
+        ]);
+
+        res.status(200).json({
+            success: true,
+            totalOrders,
+            deliveredOrders, // Aquí ya son los pedidos con estado "Entregada"
+            totalIncome: totalIncome[0]?.totalIncome || 0,
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error obteniendo estadísticas generales', error: error.message });
+    }
+};
+
+module.exports = { 
+    createOrder, 
+    getAllOrders, 
+    getOrderStatistics, // Añadir esta función si es requerida
+    getOrderStatisticsByDate,  
+    getOrderStatisticsByState, 
+    getTopBuyers, 
+    updateOrderState, 
+    deleteOrder,
+    getOrderStatisticsByDeliveryOption 
+};
