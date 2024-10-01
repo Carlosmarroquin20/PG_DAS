@@ -44,6 +44,15 @@ const OrderForm = () => {
       return;
     }
 
+    if (!formData.phone) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Por favor, proporciona un número de teléfono.',
+        icon: 'warning'
+      });
+      return;
+    }
+
     const products = Object.keys(cartItems)
       .filter(itemId => cartItems[itemId] > 0)
       .map(itemId => ({

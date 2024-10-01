@@ -1,5 +1,6 @@
 import React from 'react';
 import './CSS/Contacto.css'; // Asegúrate de crear y vincular el CSS
+import DistribuidoraMap from '../Components/Mapa/DistribuidoraMap';
 
 function Contacto() {
   return (
@@ -20,6 +21,7 @@ function Contacto() {
       <div className="image-section">
         <img src="https://images.unsplash.com/photo-1527847263472-aa5338d178b8?q=80&w=1474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Campo agrícola" />
       </div>
+      <DistribuidoraMap />
     </div>                                                                  
   );
 }

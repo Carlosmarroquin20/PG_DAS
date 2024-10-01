@@ -1,6 +1,6 @@
 import React from 'react';
 import './CalculatorBanner.css';
-import exlusive_image from '../Assets/TioBeta.png';
+import Calcupg from '../Assets/Calcupg.png';
 import { Link } from 'react-router-dom';
 
 const CalculatorBanner = () => {
@@ -12,7 +12,7 @@ const CalculatorBanner = () => {
         <Link to="/calculator"><button>PRUEBA AHORA!</button></Link>
       </div>
       <div className="CalculatorBanner-right">
-        <img src={exlusive_image} alt="Tío Checha" />
+        <img src={Calcupg} alt="Tío Checha" />
       </div>
     </div>
   );

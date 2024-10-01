@@ -14,8 +14,57 @@ const LoginSignUp = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const validateForm = () => {
+    const { username, password, email } = formData;
+
+    // Validación para el registro
+    if (state === "Registrarse") {
+      if (!username || !email || !password) {
+        Swal.fire({
+          title: 'Error',
+          text: 'Todos los campos son obligatorios para registrarse',
+          icon: 'warning',
+        });
+        return false;
+      }
+      // Validación de formato de email
+      if (!/\S+@\S+\.\S+/.test(email)) {
+        Swal.fire({
+          title: 'Error',
+          text: 'El formato del correo electrónico no es válido',
+          icon: 'warning',
+        });
+        return false;
+      }
+    }
+
+    // Validación para el login (solo email y password)
+    if (state === "Inicio de sesión") {
+      if (!email || !password) {
+        Swal.fire({
+          title: 'Error',
+          text: 'Correo electrónico y contraseña son obligatorios para iniciar sesión',
+          icon: 'warning',
+        });
+        return false;
+      }
+      // Validación de formato de email
+      if (!/\S+@\S+\.\S+/.test(email)) {
+        Swal.fire({
+          title: 'Error',
+          text: 'El formato del correo electrónico no es válido',
+          icon: 'warning',
+        });
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   const login = async () => {
-    console.log("Función del Login al 100", formData);
+    if (!validateForm()) return;
+
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}users/login`, {
         method: 'POST',
@@ -53,7 +102,8 @@ const LoginSignUp = () => {
   };
 
   const signup = async () => {
-    console.log("Función del SignUp al 100", formData);
+    if (!validateForm()) return;
+
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}users/signup`, {
         method: 'POST',
@@ -99,14 +149,40 @@ const LoginSignUp = () => {
       <div className="loginsignup-container">
         <h1>{state}</h1>
         <div className="loginsignup-fields">
-          {state === "Registrarse" && <input name='username' value={formData.username} onChange={changeHandler} type="text" placeholder='Tu Nombre' />}
-          <input name='email' value={formData.email} onChange={changeHandler} type="email" placeholder='Correo Electrónico' />
-          <input name='password' value={formData.password} onChange={changeHandler} type="password" placeholder='Contraseña' />
+          {state === "Registrarse" && (
+            <input
+              name='username'
+              value={formData.username}
+              onChange={changeHandler}
+              type="text"
+              placeholder='Tu Nombre'
+            />
+          )}
+          <input
+            name='email'
+            value={formData.email}
+            onChange={changeHandler}
+            type="email"
+            placeholder='Correo Electrónico'
+          />
+          <input
+            name='password'
+            value={formData.password}
+            onChange={changeHandler}
+            type="password"
+            placeholder='Contraseña'
+          />
         </div>
         <button onClick={() => (state === "Inicio de sesión" ? login() : signup())}>Continuar</button>
-        {state === "Inicio de sesión" 
-          ? <p className="loginsignup-login">¿Crear una cuenta? <span onClick={handleToggleState}>¡Haz clic aquí!</span></p>
-          : <p className="loginsignup-login">¿Ya tienes una cuenta? <span onClick={handleToggleState}>Inicia sesión aquí</span></p>}
+        {state === "Inicio de sesión" ? (
+          <p className="loginsignup-login">
+            ¿Crear una cuenta? <span onClick={handleToggleState}>¡Haz clic aquí!</span>
+          </p>
+        ) : (
+          <p className="loginsignup-login">
+            ¿Ya tienes una cuenta? <span onClick={handleToggleState}>Inicia sesión aquí</span>
+          </p>
+        )}
         <div className="loginsignup-agree">
           <input type="checkbox" name='' id='' />
           <p>Al continuar, acepto los términos de uso y la política de privacidad.</p>

@@ -219,7 +219,7 @@ const OrderStatistics = () => {
         </div>
         <div className="statistics-card">
           <p className="stat-title">Ingresos Totales</p>
-          <p className="stat-value">${statistics.totalIncome}</p>
+          <p className="stat-value">Q{statistics.totalIncome}</p>
         </div>
       </div>
 

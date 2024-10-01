@@ -113,7 +113,7 @@ const ListOrders = () => {
             <div className="listorders-format-main listorders-format">
               <p>{order._id}</p>
               <p>{order.user?.name || 'No disponible'}</p>
-              <p>${order.total}</p>
+              <p>Q{order.total}</p>
               <p>{order.deliveryOption}</p>
               <p>{order.state || 'No disponible'}</p> {/* Muestra el estado del pedido */}
               <button onClick={() => viewOrderDetails(order)}>Ver Detalles</button>
@@ -130,7 +130,7 @@ const ListOrders = () => {
           <p>ID Orden: {viewingOrder._id}</p>
           <p>Usuario: {viewingOrder.user?.name || 'No disponible'}</p>
           <p>Email: {viewingOrder.user?.email || 'No disponible'}</p>
-          <p>Total: ${viewingOrder.total}</p>
+          <p>Total: Q{viewingOrder.total}</p>
           <p>Opción de Entrega: {viewingOrder.deliveryOption}</p>
           <p>Estado: {viewingOrder.state || 'No disponible'}</p> {/* Muestra el estado del pedido */}
           <p>Dirección: {viewingOrder.address}</p>

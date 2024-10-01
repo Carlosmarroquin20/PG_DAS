@@ -233,7 +233,7 @@ const getOrderStatistics = async (req, res) => {
         res.status(200).json({
             success: true,
             totalOrders,
-            deliveredOrders, // Aquí ya son los pedidos con estado "Entregada"
+            deliveredOrders, 
             totalIncome: totalIncome[0]?.totalIncome || 0,
         });
     } catch (error) {
@@ -241,14 +241,36 @@ const getOrderStatistics = async (req, res) => {
     }
 };
 
+// Función para obtener los productos más vendidos
+const getBestSellingProducts = async (req, res) => {
+    try {
+        const bestSellingProducts = await Order.aggregate([
+            { $unwind: "$products" }, // Desglosar los productos de cada orden
+            { $group: { _id: "$products.product", totalSold: { $sum: "$products.quantity" } } }, 
+            { $lookup: { from: "products", localField: "_id", foreignField: "_id", as: "productInfo" } },
+            { $unwind: "$productInfo" }, // Desglosar la información del producto
+            { $project: { _id: 0, name: "$productInfo.name", totalSold: 1 } }, 
+            { $sort: { totalSold: -1 } }, 
+            { $limit: 5 } // Limitar el número de productos a los 5 más vendidos (opcional)
+        ]);
+
+        res.status(200).json({ success: true, bestSellingProducts });
+    } catch (error) {
+        console.error('Error obteniendo los productos más vendidos:', error);
+        res.status(500).json({ success: false, message: 'Error obteniendo los productos más vendidos', error: error.message });
+    }
+};
+
+
 module.exports = { 
     createOrder, 
     getAllOrders, 
-    getOrderStatistics, // Añadir esta función si es requerida
+    getOrderStatistics, 
     getOrderStatisticsByDate,  
     getOrderStatisticsByState, 
     getTopBuyers, 
     updateOrderState, 
     deleteOrder,
-    getOrderStatisticsByDeliveryOption 
+    getOrderStatisticsByDeliveryOption,
+    getBestSellingProducts
 };
