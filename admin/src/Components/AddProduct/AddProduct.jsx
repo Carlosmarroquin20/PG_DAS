@@ -4,7 +4,7 @@ import './AddProduct.css';
 import upload_area from '../../assets/upload_area.svg';
 
 const AddProduct = () => {
-  const [image, setImage] = useState(false);
+  const [image, setImage] = useState(null);
   const [productDetails, setProductDetails] = useState({
     name: "",
     image: "",
@@ -44,30 +44,36 @@ const AddProduct = () => {
   // Función para agregar el producto
   const Add_Product = async () => {
     console.log(productDetails);
-    let responseData;
-    let product = productDetails;
 
+    // Verifica si se ha seleccionado una imagen
+    if (!image) {
+      Swal.fire('Error', 'Debes seleccionar una imagen', 'error');
+      return;
+    }
+
+    // Subir la imagen a Cloudinary
     let formData = new FormData();
     formData.append('product', image);
 
-    // Subida de imagen
+    let responseData;
     await fetch('http://localhost:4000/upload', {
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      },
       body: formData,
     }).then((resp) => resp.json()).then((data) => { responseData = data });
 
     if (responseData.success) {
-      product.image = responseData.image_url;
+      // Si la imagen se subió correctamente, guarda la URL en productDetails
+      const product = {
+        ...productDetails,
+        image: responseData.image_url // URL de la imagen en Cloudinary
+      };
+      
       console.log(product);
 
-      // Subida de datos del producto
+      // Ahora enviar el producto con la URL de la imagen al backend
       await fetch('http://localhost:4000/api/products/addproduct', {
         method: 'POST',
         headers: {
-          Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(product),

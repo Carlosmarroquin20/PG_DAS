@@ -2,12 +2,14 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const path = require('path');
+const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
-const orderRoutes = require('./routes/orderRoutes'); // Nueva ruta de órdenes
+const orderRoutes = require('./routes/orderRoutes'); 
+const reviewRoutes = require('./routes/reviewRoutes');  // Asegúrate de tener esta ruta
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -22,34 +24,38 @@ mongoose.connect(process.env.MONGODB_URI, {
 }).then(() => console.log("Conectado a MongoDB"))
   .catch(err => console.error("Error conectando a MongoDB", err));
 
-// Configuración de almacenamiento para imágenes usando Multer
-const storage = multer.diskStorage({
-    destination: './upload/images',
-    filename: (req, file, cb) => {
-        return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+// Configuración de Cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+// Configuración de Multer para almacenar en Cloudinary
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'productos',
+        format: async (req, file) => 'png',
+        public_id: (req, file) => `${file.fieldname}_${Date.now()}`
     }
 });
 
 const upload = multer({ storage: storage });
 
-// Ruta para cargar imágenes
-app.use('/images', express.static('upload/images'));
-
+// Ruta para subir imágenes
 app.post("/upload", upload.single('product'), (req, res) => {
     res.json({
         success: 1,
-        image_url: `http://localhost:${port}/images/${req.file.filename}`
+        image_url: req.file.path // URL de la imagen en Cloudinary
     });
 });
-const reviewRoutes = require('./routes/reviewRoutes');
-
-
 
 // Uso de rutas
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
-app.use('/api/reviews', reviewRoutes); // Integrar rutas de reseñas // Integrar rutas de órdenes
+app.use('/api/reviews', reviewRoutes);  // Asegúrate de que la ruta exista
 
 // Iniciar el servidor
 app.listen(port, (error) => {
