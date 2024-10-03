@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
+const cors = require('cors');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 const productRoutes = require('./routes/productRoutes');
@@ -13,6 +14,11 @@ const reviewRoutes = require('./routes/reviewRoutes');  // Asegúrate de tener e
 
 const app = express();
 const port = process.env.PORT || 4000;
+app.use(
+    cors({
+      origin: '*',
+    })
+  );
 
 app.use(express.json());
 app.use(cors());
