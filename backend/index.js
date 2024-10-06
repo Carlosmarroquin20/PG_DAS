@@ -15,10 +15,11 @@ const app = express();
 const port = process.env.PORT || 4000;
 app.use(
     cors({
-      origin: '*',
-    })
+      origin: 'https://pg-das-frontend.onrender.com', // URL de tu frontend
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    })
   );
-
+  
 app.use(express.json());
 
 // Conexión a MongoDB
