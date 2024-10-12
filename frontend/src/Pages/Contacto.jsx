@@ -12,9 +12,9 @@ function Contacto() {
         <p>Si tienes preguntas sobre nuestros productos, necesitas asesoría para elegir la solución adecuada, o quieres saber más sobre cómo podemos ayudarte a maximizar tu rendimiento agrícola, no dudes en contactarnos. Nuestro equipo de expertos está listo para asistirte y proporcionarte la información y el soporte que necesitas.</p>
         <div className="contact-info">
           <h3>Contáctanos</h3>
-          <p><strong>Teléfono:</strong> [Número de teléfono]</p>
-          <p><strong>Correo Electrónico:</strong> [Dirección de email]</p>
-          <p><strong>Dirección:</strong> [Dirección física completa]</p>
+          <p><strong>Teléfono:</strong> 45986585</p>
+          <p><strong>Correo Electrónico:</strong> DisitribuidoraAgricolaSandoval@gmial.com</p>
+          <p><strong>Dirección:</strong> Jalapa, Guatemala</p>
         </div>
         <p>Nuestro compromiso es con tu éxito en el campo. Estamos aquí para ofrecerte apoyo, asesoría y los mejores productos del mercado. ¡Esperamos tener noticias tuyas pronto!</p>
       </div>

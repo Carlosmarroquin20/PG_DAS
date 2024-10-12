@@ -4,7 +4,6 @@ npm-debug.log
 yarn-error.log
 
 # Archivos de entorno
-.env
 
 # Carpetas de subida y pruebas locales
 upload/

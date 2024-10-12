@@ -7,7 +7,7 @@ const DistribuidoraMap = () => {
       <div className="address-section">
         <h2>Distribuidora Agrícola Sandoval</h2>
         <p>Dirección: Jalapa, Guatemala</p>
-        <p>Teléfono: +502 31976849</p>
+        <p>Teléfono: +502 45986585</p>
       </div>
       <div className="map-section">
         <iframe

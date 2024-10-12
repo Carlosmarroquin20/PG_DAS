@@ -13,12 +13,7 @@ const reviewRoutes = require('./routes/reviewRoutes');  // Asegúrate de tener e
 
 const app = express();
 const port = process.env.PORT || 4000;
-app.use(
-    cors({
-      origin: 'https://pg-das-frontend.onrender.com', // URL de tu frontend
-      methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    })
-  );
+app.use(cors())
   
 app.use(express.json());
 
