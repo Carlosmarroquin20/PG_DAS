@@ -56,7 +56,7 @@ const AddProduct = () => {
     formData.append('product', image);
 
     let responseData;
-    await fetch('http://localhost:4000/upload', {
+    await fetch(`${import.meta.env.VITE_API_URL}upload`, {  // Usando import.meta.env para Vite
       method: 'POST',
       body: formData,
     }).then((resp) => resp.json()).then((data) => { responseData = data });
@@ -71,7 +71,7 @@ const AddProduct = () => {
       console.log(product);
 
       // Ahora enviar el producto con la URL de la imagen al backend
-      await fetch('http://localhost:4000/api/products/addproduct', {
+      await fetch(`${import.meta.env.VITE_API_URL}products/addproduct`, {  // Usando import.meta.env para Vite
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

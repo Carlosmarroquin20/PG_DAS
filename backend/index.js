@@ -55,7 +55,7 @@ app.post("/upload", upload.single('product'), (req, res) => {
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
-app.use('/api/reviews', reviewRoutes);  // Asegúrate de que la ruta exista
+app.use('/api/reviews', reviewRoutes);  
 
 // Iniciar el servidor
 app.listen(port, (error) => {

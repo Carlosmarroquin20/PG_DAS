@@ -10,7 +10,7 @@ const ListOrders = () => {
   // Función para obtener todas las órdenes
   const fetchOrders = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/orders/allorders');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}orders/allorders`);
       const data = await response.json();
 
       if (data.success) {
@@ -27,7 +27,7 @@ const ListOrders = () => {
   // Función para eliminar una orden (sin token)
   const deleteOrder = async (orderId) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/orders/delete/${orderId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}orders/delete/${orderId}`, {
         method: 'DELETE',
       });
       const data = await response.json();
@@ -62,7 +62,7 @@ const ListOrders = () => {
   // Función para actualizar el estado de la orden (sin token)
   const updateOrderState = async (orderId) => {
     try {
-      const response = await fetch('http://localhost:4000/api/orders/updatestate', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}orders/updatestate`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -35,7 +35,7 @@ const OrderStatistics = () => {
   // Fetch para obtener estadísticas generales
   const fetchStatistics = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/orders/statistics');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}orders/statistics`);
       const data = await response.json();
       if (data.success) {
         setStatistics(data);
@@ -53,7 +53,7 @@ const OrderStatistics = () => {
   // Fetch para obtener estadísticas por fecha
   const fetchDateStatistics = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/orders/statistics/date');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}orders/statistics/date`);
       const data = await response.json();
       if (data.success) {
         setDateStats(data);
@@ -69,7 +69,7 @@ const OrderStatistics = () => {
   // Fetch para obtener estadísticas por estado
   const fetchStateStatistics = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/orders/statistics/state');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}orders/statistics/state`);
       const data = await response.json();
       if (data.success) {
         setStateStats(data.orderStates);
@@ -85,7 +85,7 @@ const OrderStatistics = () => {
   // Fetch para obtener los compradores frecuentes
   const fetchTopBuyers = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/orders/topbuyers');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}orders/topbuyers`);
       const data = await response.json();
       if (data.success) {
         setTopBuyers(data.topBuyers);
@@ -101,7 +101,7 @@ const OrderStatistics = () => {
   // Fetch para obtener estadísticas de las opciones de entrega
   const fetchDeliveryStatistics = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/orders/statistics/delivery');
+      const response = await fetch(`${import.meta.env.VITE_API_URL}orders/statistics/delivery`);
       const data = await response.json();
       if (data.success) {
         setDeliveryStats(data.deliveryOptions);

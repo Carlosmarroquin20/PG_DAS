@@ -15,7 +15,7 @@ const ListProduct = () => {
   });
 
   const fetchInfo = async () => {
-    await fetch('http://localhost:4000/api/products/allproducts')
+    await fetch(`${import.meta.env.VITE_API_URL}products/allproducts`)
       .then((res) => res.json())
       .then((data) => { setAllProducts(data); });
   }
@@ -44,7 +44,7 @@ const ListProduct = () => {
 
   // Función para eliminar el producto
   const removeProduct = async (id) => {
-    await fetch('http://localhost:4000/api/products/removeproduct', {
+    await fetch(`${import.meta.env.VITE_API_URL}products/removeproduct`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -71,7 +71,7 @@ const ListProduct = () => {
 
   // Función para guardar el producto
   const saveProduct = async (id) => {
-    await fetch('http://localhost:4000/api/products/updateproduct', {
+    await fetch(`${import.meta.env.VITE_API_URL}products/updateproduct`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
