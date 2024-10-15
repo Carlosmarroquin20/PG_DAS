@@ -43,51 +43,40 @@ const AddProduct = () => {
 
   // Función para agregar el producto
   const Add_Product = async () => {
-    console.log(productDetails);
-
-    // Verifica si se ha seleccionado una imagen
-    if (!image) {
-      Swal.fire('Error', 'Debes seleccionar una imagen', 'error');
+    // Verificar si la imagen es válida
+    if (!image || !['image/jpeg', 'image/png'].includes(image.type)) {
+      Swal.fire('Error', 'Debes seleccionar una imagen válida (JPG o PNG)', 'error');
       return;
     }
 
-    // Subir la imagen a Cloudinary
     let formData = new FormData();
-    formData.append('product', image);
+    
+    // Añadir la imagen al FormData
+    formData.append('product', image);  // 'product' debe coincidir con el campo esperado por multer
+  
+    // Añadir los detalles del producto al FormData
+    formData.append('name', productDetails.name);
+    formData.append('category', productDetails.category);
+    formData.append('new_price', productDetails.new_price);
+    formData.append('old_price', productDetails.old_price);
 
-    let responseData;
-    await fetch(`${import.meta.env.VITE_API_URL}upload`, {  // Usando import.meta.env para Vite
-      method: 'POST',
-      body: formData,
-    }).then((resp) => resp.json()).then((data) => { responseData = data });
-
-    if (responseData.success) {
-      // Si la imagen se subió correctamente, guarda la URL en productDetails
-      const product = {
-        ...productDetails,
-        image: responseData.image_url // URL de la imagen en Cloudinary
-      };
-      
-      console.log(product);
-
-      // Ahora enviar el producto con la URL de la imagen al backend
-      await fetch(`${import.meta.env.VITE_API_URL}products/addproduct`, {  // Usando import.meta.env para Vite
+    try {
+      // Enviar los detalles del producto y la imagen al backend
+      const response = await fetch(`${import.meta.env.VITE_API_URL}products/addproduct`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(product),
-      }).then((resp) => resp.json()).then((data) => {
-        if (data.success) {
-          Swal.fire('Agregado', 'El producto ha sido agregado exitosamente', 'success');  // Alerta de éxito
-        } else {
-          Swal.fire('Error', 'Hubo un problema al agregar el producto', 'error');  // Alerta de error
-        }
-      }).catch(() => {
-        Swal.fire('Error', 'No se pudo conectar con el servidor', 'error');  // Alerta si no se conecta
+        body: formData,  // Enviar el FormData completo
       });
-    } else {
-      Swal.fire('Error', 'Hubo un problema al subir la imagen', 'error');  // Alerta de error en la imagen
+  
+      const data = await response.json();
+  
+      if (response.ok && data.success) {
+        Swal.fire('Agregado', 'El producto ha sido agregado exitosamente', 'success');
+      } else {
+        Swal.fire('Error', 'Hubo un problema al agregar el producto', 'error');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      Swal.fire('Error', 'Hubo un problema al conectar con el servidor', 'error');
     }
   };
 

@@ -2,29 +2,31 @@ const Product = require('../models/Product');
 const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
 
-// Función para agregar productos
 const addProduct = async (req, res) => {
     try {
-        // Verifica si todos los datos necesarios están presentes
-        if (!req.body.name || !req.body.image || !req.body.category || !req.body.new_price || !req.body.old_price) {
+        // Verificar si los datos están presentes
+        if (!req.body.name || !req.file || !req.body.category || !req.body.new_price || !req.body.old_price) {
             return res.status(400).json({ message: "Faltan datos del producto" });
         }
 
-        let products = await Product.find({});
-        let id;
-
-        if (products.length > 0) {
-            let last_product = products[products.length - 1];
-            id = last_product.id + 1;
-        } else {
-            id = 1;
+        // Subir la imagen a Cloudinary (si es necesario)
+        let imageUrl;
+        try {
+            const uploadResult = await cloudinary.uploader.upload(req.file.path);
+            imageUrl = uploadResult.secure_url;  // URL de la imagen subida en Cloudinary
+            // Si subes la imagen en local, sería req.file.path
+        } catch (uploadError) {
+            return res.status(500).json({ message: "Error al subir la imagen", error: uploadError });
         }
 
-        // Crear el nuevo producto en MongoDB con la URL de Cloudinary
+        let products = await Product.find({});
+        let id = products.length > 0 ? products[products.length - 1].id + 1 : 1;
+
+        // Crear el nuevo producto en MongoDB con la URL de la imagen subida
         const product = new Product({
             id: id,
             name: req.body.name,
-            image: req.body.image,  // URL de la imagen subida en Cloudinary
+            image: imageUrl,  // URL de la imagen subida en Cloudinary
             category: req.body.category,
             new_price: req.body.new_price,
             old_price: req.body.old_price,
@@ -37,7 +39,7 @@ const addProduct = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Error al crear el producto:", error);  // Mostrar detalles del error en la consola
+        console.error("Error al crear el producto:", error);
         res.status(500).json({ message: "Error al crear el producto", error });
     }
 };
