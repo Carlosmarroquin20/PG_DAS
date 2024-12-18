@@ -150,13 +150,13 @@ PG_DAS/
 
 ## Screenshots 🖼️
 ### 1. Landing Page
-![Landing Page](https://via.placeholder.com/600x400?text=Landing+Page)
+![Landing Page](https://i.imgur.com/Ll1iXsY.png)
 
 ### 2. Product Categories
-![Product Categories](https://via.placeholder.com/600x400?text=Product+Categories)
+![Product Categories](https://i.imgur.com/rmOOh8c.png)
 
 ### 3. Shopping Cart
-![Shopping Cart](https://via.placeholder.com/600x400?text=Shopping+Cart)
+![Shopping Cart](https://i.imgur.com/I7zuLZ5.png)
 
 ### 4. Admin Dashboard
 ![Admin Dashboard](https://via.placeholder.com/600x400?text=Admin+Dashboard)
@@ -190,8 +190,6 @@ This project is licensed under the **MIT License**.
 ## Author ✍️
 Developed by **Carlos Marroquín**.
 
-📧 [Contact Me](mailto:your-email@example.com)
+📧 [Contact Me](mailto:carlosema322@gmail.com)
 
 ---
-
-_This README was auto-generated for the PG_DAS project._
