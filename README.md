@@ -40,7 +40,7 @@ The live demo of the application can be accessed here:
 ---
 
 ## Table of Contents 📚
-1. [Technologies Used](#technologies-used)
+1. [Technologies Used](#Technologies Used)
 2. [Installation](#installation)
 3. [Environment Variables](#environment-variables)
 4. [Usage](#usage)
