@@ -35,7 +35,7 @@ The platform does not process payments but facilitates an intuitive system for m
 The live demo of the application can be accessed here:
 👉 [PG_DAS Live](https://pg-das-frontend.onrender.com/)
 
-![Project Screenshot](https://via.placeholder.com/600x400?text=Project+Screenshot)
+![Project Screenshot](https://i.imgur.com/GJAOwYS.png)
 
 ---
 
