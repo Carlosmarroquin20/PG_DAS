@@ -1,6 +1,6 @@
 # PG_DAS: Agricultural Products Ordering Platform
 
-![Project Banner](https://via.placeholder.com/1200x400?text=PG_DAS+%7C+Agricultural+Products+Ordering+System)
+![Project Banner](https://i.imgur.com/a5sQiBB.png)
 
 ## Description 📋
 **PG_DAS** is a complete agricultural product ordering platform developed with the **MERN** stack (**MongoDB**, **Express.js**, **React**, and **Node.js**). It allows users to browse agricultural product categories such as fertilizers, foliar products, and fungicides, add them to a cart, calculate crop recommendations, and place orders. It also includes an admin panel for product management and analytics.
