@@ -159,7 +159,7 @@ PG_DAS/
 ![Shopping Cart](https://i.imgur.com/I7zuLZ5.png)
 
 ### 4. Admin Dashboard
-![Admin Dashboard](https://via.placeholder.com/600x400?text=Admin+Dashboard)
+![Admin Dashboard](https://i.imgur.com/RLnNArj.png)
 
 ---
 
